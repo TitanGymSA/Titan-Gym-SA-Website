@@ -13,7 +13,7 @@ Use these questions to guide further discussion, customer research, and design t
 
 4. **Common questions:** What do prospects most often ask by phone, message, or at the front desk? What information do visitors already have, and which answers do they still need before deciding to visit or join? The user does not know yet; keep for follow-up.
 
-   **What this could change:** Which answers appear on the homepage, membership page, and FAQ, and how prominently. Repeated questions may reveal information that needs clearer wording or earlier placement.
+   **What this could change:** Which answers appear on the homepage, membership section, and FAQ, and how prominently. Repeated questions may reveal information that needs clearer wording or earlier placement.
 
 5. **Reasons for choosing Titan:** What do new members say made them choose Titan over other gyms? What nearly stopped them? Nearby competitors and a price difference were discussed, but members' own reasons remain unknown.
 
@@ -57,7 +57,7 @@ Use these questions to guide further discussion, customer research, and design t
 
 15. **Owners on the homepage:** How prominent should the owners and their story be? The user has deferred this decision.
 
-    **What this could change:** Whether the homepage includes owner portraits and a substantial introduction, a short ownership mention, or a link to a fuller story on the About page.
+    **What this could change:** Whether the homepage includes owner portraits and a substantial introduction, a short ownership mention, or a fuller story within the homepage.
 
 ## Member stories
 

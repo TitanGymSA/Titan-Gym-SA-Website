@@ -78,23 +78,14 @@ test("every categorized media asset appears in its matching gallery with a valid
   }
 });
 
-test("Member Voices shows attributed Google review cards and the owner-confirmed rating", async () => {
-  const home = await readFile(resolve(output, "index.html"), "utf8");
-  const section = home.match(/<section[^>]*aria-labelledby="member-reviews-title"[\s\S]*?<\/section>/)?.[0];
-  assert.ok(section);
-  assert.match(section, /5\.0 out of 5 stars on Google/);
-  assert.match(section, /aria-hidden="true">★★★★★/);
-  assert.equal([...section.matchAll(/class="member-review"/g)].length, 3);
-  for (const author of ["Gemma H", "David Bryan", "Lee"]) {
-    assert.ok(section.includes(`<strong>${author}</strong>`));
+test("Google reviews stay hidden and no page loads the SDK or exposes a browser key", async () => {
+  for (const filename of files) {
+    const html = await readFile(resolve(output, filename), "utf8");
+    assert.doesNotMatch(html, /member-reviews-title|data-google-reviews|data-api-key|google-reviews\.js|maps\.googleapis\.com|AIza[0-9A-Za-z_-]{35}/, filename);
+    assert.ok(html.includes('href="./privacy.html"'));
+    assert.ok(html.includes('href="./terms.html"'));
   }
-  assert.match(section, /href="https:\/\/www.google.com\/maps\/search\/Titan\+Gym\+Alamo\+Ranch\+San\+Antonio"/);
-  assert.match(section, /Read more on Google/);
-  assert.ok(section.includes('data-google-reviews=""'), "Missing live-reviews initialization target");
-  assert.ok(section.includes('data-place-id="'), "Missing configured Place ID");
-  assert.ok(home.includes('src="./google-reviews.js" defer'), "Missing live-reviews browser script");
-  assert.ok(home.includes('href="./privacy.html"'), "Missing public privacy policy");
-  assert.ok(home.includes('href="./terms.html"'), "Missing public website terms");
+  await assert.rejects(stat(resolve(output, "google-reviews.js")), { code: "ENOENT" });
 });
 
 test("mobile menu opens, closes, and returns focus on Escape", async () => {
@@ -228,8 +219,8 @@ test("build prunes stale pages/assets and uses the deployment URL for sitemap an
       env: { ...process.env, SITE_URL: "https://example.test/group/titan-gym", GOOGLE_MAPS_API_KEY: "test-google-browser-key", GOOGLE_MAPS_PLACE_ID: "ChIJtest" },
     });
     const configuredHome = await readFile(resolve(output, "index.html"), "utf8");
-    assert.ok(configuredHome.includes('data-api-key="test-google-browser-key"'), "CI browser key must override local configuration");
-    assert.ok(configuredHome.includes('data-place-id="ChIJtest"'), "CI Place ID must override the configured default");
+    assert.doesNotMatch(configuredHome, /test-google-browser-key|data-api-key|data-google-reviews|google-reviews\.js/);
+    await assert.rejects(stat(resolve(output, "google-reviews.js")), { code: "ENOENT" });
     await assert.rejects(stat(resolve(output, "removed-page.html")), { code: "ENOENT" });
     await assert.rejects(stat(resolve(output, "services.html")), { code: "ENOENT" });
     await assert.rejects(stat(resolve(output, "about.html")), { code: "ENOENT" });

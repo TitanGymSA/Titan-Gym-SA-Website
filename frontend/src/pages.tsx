@@ -5,7 +5,6 @@ import { ArrowIcon, PhoneIcon } from "./Icons";
 import { InlineMediaGallery } from "./InlineMediaGallery";
 import { MembershipPrice } from "./MembershipPrice";
 import { MembershipDetails } from "./MembershipDetails";
-import { MemberReviews } from "./MemberReviews";
 import { PhotoGallery } from "./PhotoGallery";
 import { PhoneNumber } from "./PhoneNumber";
 import { bodybuildingMedia, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, reviews, roles, site } from "./siteData";
@@ -101,7 +100,6 @@ export function HomePage() {
         <div className="container"><SectionHeading eyebrow="Membership" title="Invest in yourself" /><MembershipPreview /><h2 className="membership-specials">Visit for current specials!</h2></div>
       </section>
 
-      <MemberReviews />
       <Callout eyebrow="Visit Titan Gym" title="Still deciding?" text={["Stop by and check out the gym for yourself. Day and week passes can be purchased at the front desk, in person only.", "Give us a call with any questions before you visit. We’re happy to help."]}>
         <ButtonLink href={site.mapsUrl} external>Get directions</ButtonLink>
         <ButtonLink href={site.phoneHref} variant="outline"><span className="phone-number"><PhoneIcon />Call us</span></ButtonLink>

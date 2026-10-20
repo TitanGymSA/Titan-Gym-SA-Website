@@ -24,7 +24,6 @@ export function renderPage(pathname: string, siteUrl?: string) {
         {pathname === "/" ? <script src="./headline.js" defer /> : null}
         {pathname === "/" ? <script src="./gallery.js" defer /> : null}
         {pathname === "/" ? <script src="./inline-gallery.js" defer /> : null}
-        {pathname === "/" ? <script src="./google-reviews.js" defer /> : null}
         <script src="./site.js" defer />
       </body>
     </html>,

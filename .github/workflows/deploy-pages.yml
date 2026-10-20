@@ -39,13 +39,7 @@ jobs:
       - name: Build and check site
         env:
           SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.base_url }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-          GOOGLE_MAPS_PLACE_ID: ${{ vars.GOOGLE_MAPS_PLACE_ID }}
         run: |
-          if [ -z "$GOOGLE_MAPS_API_KEY" ]; then
-            echo "::error::Add the GOOGLE_MAPS_API_KEY repository Actions secret before deploying."
-            exit 1
-          fi
           npm run typecheck
           npm run build
           npm run check:static

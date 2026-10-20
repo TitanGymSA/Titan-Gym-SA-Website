@@ -37,7 +37,6 @@ async function build() {
   await cp(resolve(frontend, "public/headline.js"), resolve(output, "headline.js"));
   await cp(resolve(frontend, "public/gallery.js"), resolve(output, "gallery.js"));
   await cp(resolve(frontend, "public/inline-gallery.js"), resolve(output, "inline-gallery.js"));
-  await cp(resolve(frontend, "public/google-reviews.js"), resolve(output, "google-reviews.js"));
   await cp(resolve(frontend, "src/styles.css"), resolve(output, "styles.css"));
 
   for (const pathname of pagePaths) {
@@ -58,7 +57,7 @@ async function build() {
   // public/ is exclusively generated. Prune removed routes/assets without
   // emptying the served directory while Live Server is using it.
   const expected = new Set([
-    ...pagePaths.map(pageFilename), "styles.css", "site.js", "headline.js", "gallery.js", "inline-gallery.js", "google-reviews.js", "robots.txt",
+    ...pagePaths.map(pageFilename), "styles.css", "site.js", "headline.js", "gallery.js", "inline-gallery.js", "robots.txt",
     ...await listFiles(resolve(frontend, "public/images"), "images/"),
     ...await listFiles(resolve(frontend, "public/videos"), "videos/"),
     ...(siteUrl ? ["sitemap.xml"] : []),

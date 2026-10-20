@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit",
     "build": "node scripts/build-static.mjs",
     "watch": "node scripts/build-static.mjs --watch",
-    "check:static": "node --test scripts/static-site.test.mjs scripts/headline.test.mjs scripts/gallery.test.mjs scripts/inline-gallery.test.mjs scripts/google-reviews.test.mjs"
+    "check:static": "node --test scripts/static-site.test.mjs scripts/headline.test.mjs scripts/gallery.test.mjs scripts/inline-gallery.test.mjs"
   },
   "dependencies": {
     "react": "^19.2.3",

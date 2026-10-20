@@ -1,13 +1,14 @@
 import { ButtonLink, Callout, PageHero, SectionHeading } from "./components";
 import { ContactOptions } from "./ContactOptions";
+import { EmailAddress } from "./EmailAddress";
 import { HomeHeadline } from "./HomeHeadline";
-import { ArrowIcon, PhoneIcon } from "./Icons";
+import { PhoneIcon } from "./Icons";
 import { InlineMediaGallery } from "./InlineMediaGallery";
 import { MembershipPrice } from "./MembershipPrice";
 import { MembershipDetails } from "./MembershipDetails";
 import { PhotoGallery } from "./PhotoGallery";
 import { PhoneNumber } from "./PhoneNumber";
-import { bodybuildingMedia, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, reviews, roles, site } from "./siteData";
+import { bodybuildingMedia, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, roles, site } from "./siteData";
 
 const gymHighlights = ["Family owned", "Open gym", "Personal training", "Alamo Ranch, TX", "All fitness levels"];
 const showShakeBar = false;
@@ -67,7 +68,7 @@ export function HomePage() {
         <div className="home-intro__media" aria-hidden="true"><img src="./images/community.jpg" alt="" loading="lazy" /></div>
         <div className="container intro-grid intro-grid--home">
           <div><p className="eyebrow">Welcome to Titan Gym</p><h2>Family owned<br />In Alamo Ranch</h2></div>
-          <div><p className="lead">A family tradition of health &amp; wellness</p><p>We’re a family team who believe taking care of yourself should fit into everyday life. We built Titan Gym as a place to do that with familiar faces and room to work towards your goals.</p></div>
+          <div><p className="lead">A family tradition of health &amp; wellness</p><p>We believe taking care of yourself should fit into everyday life. We built Titan Gym as a place to do that with familiar faces and room to work towards your goals.</p></div>
         </div>
       </section>
 
@@ -109,44 +110,11 @@ export function HomePage() {
   );
 }
 
-export function ReviewsPage() {
-  return (
-    <>
-      <PageHero eyebrow="Member stories" title="The people make the place." description="Hear from members who found their place at Titan Gym." image="./images/community.jpg" imageAlt="Titan Gym members training in the weight room" />
-      <section className="section section--light"><div className="container"><SectionHeading eyebrow="In their words" title="What members are saying." /><div className="review-grid">{reviews.map((review) => <figure key={review.author}><span className="review-grid__quote" aria-hidden="true">“</span><blockquote>{review.quote}</blockquote><figcaption><strong>{review.author}</strong><span>{review.date}</span></figcaption></figure>)}</div><div className="section-end"><ButtonLink href="https://www.google.com/maps/search/Titan+Gym+Alamo+Ranch+San+Antonio" external variant="outline">See more on Google</ButtonLink></div></div></section>
-      <Callout eyebrow="Join the community" title="Experience it for yourself." text="We'd love to meet you at Titan Gym." />
-    </>
-  );
-}
-
 export function JoinPage() {
   return (
     <>
-      <PageHero eyebrow="Join Titan Gym" title="Your place is here." description="Ready to get started? Join online, call us, or send a message to find your next step." image="./images/hero.jpg" imageAlt="Titan Gym's free weight and strength training floor"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
-      <section className="section section--light"><div className="container join-grid"><div><p className="eyebrow">Get in touch</p><h2>Let's talk about your goals.</h2><p>Questions about memberships, coaching, or getting started? Reach our team here.</p><div className="contact-methods"><div><span>Call</span><a href={site.phoneHref}><PhoneNumber /></a></div><div><span>Email</span><a href={`mailto:${site.email}`}>{site.email}</a></div><div><span>Visit</span><address>{site.addressLine}<br />{site.cityLine}</address></div></div><ButtonLink href={site.mapsUrl} external variant="text">Get directions</ButtonLink></div><div className="join-grid__contact"><h3>Talk with our team</h3><ContactOptions /></div></div></section>
-    </>
-  );
-}
-
-export function SocialsPage() {
-  const channels = [
-    { name: "Facebook", handle: "Titan Gym SA", detail: "Community updates and gym news.", url: site.social.facebook },
-    { name: "Instagram", handle: "@titangymsa", detail: "Training moments and a look inside the gym.", url: site.social.instagram },
-    { name: "YouTube", handle: "Titan Gym", detail: "Videos, tutorials, and fitness content.", url: site.social.youtube },
-  ];
-  return (
-    <>
-      <PageHero eyebrow="Stay connected" title="The community keeps moving." description="Follow along and share your Titan Gym journey." image="./images/community.jpg" imageAlt="Titan Gym members working out together" />
-      <section className="section section--light"><div className="container"><SectionHeading eyebrow="Find us online" title="Follow Titan Gym." /><div className="social-grid">{channels.map((channel) => <a key={channel.name} href={channel.url} target="_blank" rel="noopener noreferrer"><span>{channel.name}</span><h3>{channel.handle}</h3><p>{channel.detail}</p><strong>Follow <ArrowIcon direction="up-right" /></strong></a>)}</div><p className="social-tag">Tag your gym moments with <strong>#TitanGymSA</strong>.</p></div></section>
-    </>
-  );
-}
-
-export function TutorialsPage() {
-  return (
-    <>
-      <PageHero eyebrow="Train with confidence" title="Keep learning. Keep moving." description="Explore exercise guidance from the Titan Gym team." image="./images/facility-01.jpg" imageAlt="Member training with weights at Titan Gym"><ButtonLink href={site.social.youtube} external>Visit our YouTube channel</ButtonLink></PageHero>
-      <section className="section section--light"><div className="container"><SectionHeading eyebrow="Exercise guidance" title="Start with the fundamentals." description="Build good habits in every part of your training." /><div className="feature-grid feature-grid--light"><article className="feature-card"><span className="feature-card__number">01</span><h3>Strength training</h3><p>Practice the movements that form a solid foundation, from squats and deadlifts to presses.</p></article><article className="feature-card"><span className="feature-card__number">02</span><h3>Conditioning</h3><p>Build your capacity with purposeful cardio and full body work.</p></article><article className="feature-card"><span className="feature-card__number">03</span><h3>Mobility & recovery</h3><p>Give attention to movement quality and the time your body needs between sessions.</p></article></div><div className="section-end"><ButtonLink href={site.social.youtube} external>Watch on YouTube</ButtonLink></div></div></section>
+      <PageHero eyebrow="Join Titan Gym" title="Stop by, say hi" description="We're happy to chat! Email, Call, or best of all, stop by to check out our gym in person." image="./images/hero.jpg" imageAlt="Titan Gym's free weight and strength training floor"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
+      <section className="section section--light contact-section"><div className="contact-section__media" aria-hidden="true"><img src="./images/owners.jpg" alt="" width="2316" height="3088" loading="lazy" decoding="async" /></div><div className="container join-grid"><div><p className="eyebrow">Get in touch</p><h2>Let's talk about your goals.</h2><p>Questions about memberships, coaching, or getting started? Reach us here.</p><div className="contact-methods"><div><span>Call</span><a href={site.phoneHref}><PhoneNumber /></a></div><div><span>Email</span><a href={`mailto:${site.email}`}><EmailAddress /></a></div><div><span>Visit</span><address>{site.addressLine}<br />{site.cityLine}</address></div></div><ButtonLink href={site.mapsUrl} external variant="text">Get directions</ButtonLink></div><div className="join-grid__contact"><h3>Talk with us</h3><ContactOptions /></div></div></section>
     </>
   );
 }
@@ -154,8 +122,8 @@ export function TutorialsPage() {
 export function CareersPage() {
   return (
     <>
-      <PageHero eyebrow="Join the team" title="Help people get stronger." description="Bring your skills and your care for people to the Titan Gym community." image="./images/facility-wide.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch" />
-      <section className="section section--light"><div className="container"><SectionHeading eyebrow="Current site listings" title="Explore opportunities." description="Roles listed on Titan Gym's current website. Contact the team to confirm availability." /><div className="careers-grid">{roles.map((role) => <article key={role.title}><p className="eyebrow">Titan Gym team</p><h3>{role.title}</h3><p>{role.summary}</p><h4>What we're looking for</h4><ul>{role.requirements.map((item) => <li key={item}>{item}</li>)}</ul><ButtonLink href={`mailto:${site.email}?subject=${encodeURIComponent(role.subject)}`} variant="outline">Apply by email</ButtonLink></article>)}</div></div></section>
+      <PageHero eyebrow="Work with us" title="Help people get stronger." description="Bring your skills and your care for people to the Titan Gym community." image="./images/facility-wide.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch" />
+      <section className="section section--light"><div className="container"><SectionHeading eyebrow="Current site listings" title="Explore opportunities." description="Roles listed on Titan Gym's current website. Contact us to confirm availability." /><div className="careers-grid">{roles.map((role) => <article key={role.title}><p className="eyebrow">Work with us</p><h3>{role.title}</h3><p>{role.summary}</p><h4>What we're looking for</h4><ul>{role.requirements.map((item) => <li key={item}>{item}</li>)}</ul><ButtonLink href={`mailto:${site.email}?subject=${encodeURIComponent(role.subject)}`} variant="outline">Apply by email</ButtonLink></article>)}</div></div></section>
       <Callout eyebrow="Don't see your role?" title="Tell us what you bring." text="We'd like to hear from people who care about fitness and community." />
     </>
   );

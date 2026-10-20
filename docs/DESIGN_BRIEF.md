@@ -102,6 +102,8 @@ Remove the separate Facility page, its route, and its page-specific content. Hea
 
 Use the supplied arrow and phone SVGs as shared `ArrowIcon` and `PhoneIcon` components in `frontend/src/Icons.tsx`. All website arrows use the same arrow artwork, rotated for their direction. `PhoneNumber` uses the shared phone icon wherever a phone number appears.
 
+Footer Facebook, Instagram, and YouTube links now use the user-supplied SVGs through reusable `FacebookIcon`, `InstagramIcon`, and `YouTubeIcon` components in the same file. Keep existing destinations, use accessible platform labels on icon-only links, and provide 44px tap targets. Icons inherit existing footer and hover colors. Facebook clipping IDs must remain unique when reused.
+
 The header uses `Logo_Dark_V2_w_Text.png`, which includes the Titan Gym name. Remove the separate header text for Titan Gym and Alamo Ranch, TX. The entire header and mobile navigation use the footer's existing dark green background token with light text. Remove the logo's separate background block, keeping modest padding. The footer branding is unchanged.
 
 The established brand colors are green, black, and white. Preserve brand recognition while allowing softer supporting neutrals. The current website defines its bright green accent as `#07e607`.
@@ -221,11 +223,9 @@ Place a visible **PLACEHOLDER — REPLACE BEFORE PUBLISHING** label beside each 
 
 Show three existing Google review excerpts with reviewer names and dates, a five-star graphic, and a prominent 5.0/5 Google rating. The user confirmed that 5.0 is the current rating, superseding the older 4.9 shown in the captured business website. Link the rating and “Read more on Google” button to Titan Gym's Google Maps listing. Use the existing dark surfaces and green accent. Stack review cards on mobile. Those manually maintained values in `siteData.ts` now serve as the static fallback. With `GOOGLE_MAPS_API_KEY` configured during the build, the homepage lazily loads the Google Maps JavaScript Places library and requests live rating, review count, reviews, and the Google Maps listing URL. Use verified Place ID `ChIJrzXJpY9hJaYR6H4EusAGIEs` from `googleReviewsConfig.ts`, with optional `GOOGLE_MAPS_PLACE_ID` override. A live API check on October 20, 2026 UTC returned a 5.0 rating, 82 reviews, and five attributed review results; fetch current values at runtime rather than hardcoding that count. Show the first three attributed reviews returned by Google, preserving their order and ratings, and do not cache review content. Keep the fallback if the SDK or request fails; show a dismissible error toast above dialogs. Include Google Maps/provider attribution and public privacy/terms pages. Configure website/API restrictions, Maps JavaScript API, Places API (New), and billing in Google Cloud. Local builds read ignored `frontend/.env.local`; GitHub builds read Actions secrets and variables and publish the browser key in generated HTML.
 
-## Page structure
-
-Standalone Membership and About pages are removed. Membership details remain in the homepage pricing section; navigation and footer membership links lead there.
-
 ## Hosting
+
+The standalone Website Terms and Privacy Policy pages, their `/terms` and `/privacy` routes, and their footer links are removed.
 
 The project contains only the static website, its build tooling, and active design documents. Original captures, copy research, archived media, conversion tools, and the retired database are preserved in the sibling `../titan-gym-reference/` folder. Use GitHub Pages for hosting and VS Code Live Server for local preview. Pages are generated as HTML with relative links. Contact currently uses email and phone links; membership signup uses Gymdesk. Future website interactions must work within static hosting or use a separately configured external service.
 

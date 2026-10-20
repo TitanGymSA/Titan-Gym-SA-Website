@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ArrowIcon } from "./Icons";
+import { EmailAddress } from "./EmailAddress";
+import { ArrowIcon, FacebookIcon, InstagramIcon, YouTubeIcon } from "./Icons";
 import { PhoneNumber } from "./PhoneNumber";
 import { hours, navigation, site } from "./siteData";
 
@@ -18,7 +19,7 @@ export function ButtonLink({ children, href, variant = "solid", external = false
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
-      {children}
+      {href.startsWith("mailto:") ? <EmailAddress label={children} /> : children}
       <ArrowIcon direction={external ? "up-right" : "right"} />
     </a>
   );
@@ -80,14 +81,13 @@ export function Footer() {
       <div className="container footer-grid">
         <div className="footer-brand">
           <a className="brand brand--footer" href="./index.html" aria-label="Titan Gym home">
-            <img src="./images/logo-mark.png" alt="" width="70" height="70" />
-            <span><strong>TITAN GYM</strong><small>ALAMO RANCH, TX</small></span>
+            <img src="./images/logo-horizontal.png" alt="" width="1534" height="272" />
           </a>
-          <p>A family owned gym built for the work, the people, and the progress that matters to you.</p>
+          <p>A family gym, right here in Alamo Ranch.</p>
           <div className="footer-socials">
-            <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href={site.social.youtube} target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Facebook" title="Facebook"><FacebookIcon /></a>
+            <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Instagram" title="Instagram"><InstagramIcon /></a>
+            <a href={site.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on YouTube" title="YouTube"><YouTubeIcon /></a>
           </div>
         </div>
         <div>
@@ -95,12 +95,7 @@ export function Footer() {
           <ul className="footer-links">
             <li><a href="./index.html#gallery">Gallery</a></li>
             <li><a href="./index.html#membership">Membership</a></li>
-            <li><a href="./reviews.html">Member stories</a></li>
-            <li><a href="./exercise-tutorial-videos.html">Exercise tutorials</a></li>
-            <li><a href="./socials.html">Socials</a></li>
             <li><a href="./careers.html">Careers</a></li>
-            <li><a href="./privacy.html">Privacy policy</a></li>
-            <li><a href="./terms.html">Website terms</a></li>
           </ul>
         </div>
         <div>
@@ -114,7 +109,7 @@ export function Footer() {
         <div>
           <h2>Get in touch</h2>
           <a className="footer-contact" href={site.phoneHref}><PhoneNumber /></a>
-          <a className="footer-contact" href={`mailto:${site.email}`}>{site.email}</a>
+          <a className="footer-contact" href={`mailto:${site.email}`}><EmailAddress /></a>
           <a className="footer-direction" href="./join-now.html">Ask a question <ArrowIcon /></a>
         </div>
       </div>

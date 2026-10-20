@@ -4,7 +4,7 @@ export const site = {
   cityLine: "San Antonio, TX 78253",
   phone: "210-267-2206",
   phoneHref: "tel:+12102672206",
-  email: "TitanGymSA@outlook.com",
+  email: "info@titangymsa.com",
   signupUrl: "https://titan-gym.gymdesk.com/signup/v/lBZ8q",
   mapsUrl: "https://maps.app.goo.gl/PkzJchsbTsUVUgJ86",
   social: {
@@ -18,6 +18,7 @@ export const navigation = [
   { label: "Home", href: "/" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Membership", href: "/#membership" },
+  { label: "Contact us", href: "/join-now" },
 ] as const;
 
 export const hours = [

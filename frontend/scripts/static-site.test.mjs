@@ -12,23 +12,27 @@ const frontend = fileURLToPath(new URL("../", import.meta.url));
 const execute = promisify(execFile);
 const files = (await readdir(output)).filter((file) => file.endsWith(".html"));
 
-test("all ten pages and a 404 contain usable HTML without React or an API", async () => {
-  assert.equal(files.length, 11);
+test("all eight pages and a 404 contain usable HTML without React or an API", async () => {
+  assert.equal(files.length, 9);
   assert.ok(!files.includes("titan-nutrition.html"));
   assert.ok(!files.includes("facility.html"));
+  assert.ok(!files.includes("services.html"));
+  assert.ok(!files.includes("about.html"));
   for (const filename of files) {
     const html = await readFile(resolve(output, filename), "utf8");
     assert.match(html, /<h1[\s>]/, filename);
     assert.match(html, /<title>[^<]+<\/title>/, filename);
     assert.match(html, /<main id="main-content">/, filename);
     assert.doesNotMatch(html, /\/api\/|\/src\/|type="module"|<form[\s>]/, filename);
-    assert.doesNotMatch(html, /href="[^\"]*(?:titan-nutrition|facility\.html)/, filename);
+    assert.doesNotMatch(html, /href="[^\"]*(?:titan-nutrition|(?:facility|services|about)\.html)/, filename);
     const galleryHref = filename === "index.html" ? "#gallery" : "./index.html#gallery";
     assert.ok(html.includes(`href="${galleryHref}"`), `${filename}: missing gallery link`);
+    const membershipHref = filename === "index.html" ? "#membership" : "./index.html#membership";
+    assert.ok(html.includes(`href="${membershipHref}">Membership</a>`), `${filename}: missing membership navigation`);
     for (const [, target] of html.matchAll(/aria-controls="([^"]+)"/g)) {
       assert.ok(html.includes(`id="${target}"`), `${filename}: missing controlled element ${target}`);
     }
-    if (["index.html", "services.html", "about.html"].includes(filename)) {
+    if (filename === "index.html") {
       assert.ok(html.includes(`href="./${filename}" aria-current="page"`), `${filename}: missing active navigation`);
     }
   }
@@ -135,21 +139,18 @@ test("Join Now targets homepage memberships and annual price uses the confirmed 
   assert.ok(home.includes(specials));
   assert.ok(home.indexOf(specials) > home.indexOf("<h3>Monthly membership</h3>"));
 
-  for (const filename of ["index.html", "services.html"]) {
-    const html = await readFile(resolve(output, filename), "utf8");
-    const cards = [...html.matchAll(/<article class="plan-card[^\"]*">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
-    const annual = cards.find((card) => card.includes("<h3>Annual membership</h3>"));
-    const monthly = cards.find((card) => card.includes("<h3>Monthly membership</h3>"));
-    const cents = (price) => Math.round(Number(price.replace(/[^\d.]/g, "")) * 100);
-    const monthlyCents = cents(monthly.match(/class="plan-card__price">([^<]+)/)[1]);
-    const annualCents = cents(annual.match(/class="plan-card__price">([^<]+)/)[1]);
-    const comparisonCents = cents(annual.match(/<del>([^<]+)<\/del>/)[1]);
-    assert.equal(comparisonCents, monthlyCents * 12);
-    assert.equal(annualCents, 49400);
-    assert.ok(annualCents <= comparisonCents * 0.75);
-    assert.match(annual, /25% off \(3 months free\)/);
-    assert.match(annual, /One annual payment/);
-  }
+  const cards = [...home.matchAll(/<article class="plan-card[^\"]*">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
+  const annual = cards.find((card) => card.includes("<h3>Annual membership</h3>"));
+  const monthly = cards.find((card) => card.includes("<h3>Monthly membership</h3>"));
+  const cents = (price) => Math.round(Number(price.replace(/[^\d.]/g, "")) * 100);
+  const monthlyCents = cents(monthly.match(/class="plan-card__price">([^<]+)/)[1]);
+  const annualCents = cents(annual.match(/class="plan-card__price">([^<]+)/)[1]);
+  const comparisonCents = cents(annual.match(/<del>([^<]+)<\/del>/)[1]);
+  assert.equal(comparisonCents, monthlyCents * 12);
+  assert.equal(annualCents, 49400);
+  assert.ok(annualCents <= comparisonCents * 0.75);
+  assert.match(annual, /25% off \(3 months free\)/);
+  assert.match(annual, /One annual payment/);
   for (const filename of files.filter((file) => file !== "index.html")) {
     const html = await readFile(resolve(output, filename), "utf8");
     assert.match(html, /class="site-header__cta" href="\.\/index.html#membership"/);
@@ -218,6 +219,8 @@ test("gallery navigation closes the mobile menu and preserves native anchor beha
 
 test("build prunes stale pages/assets and uses the deployment URL for sitemap and nested 404", async () => {
   await writeFile(resolve(output, "removed-page.html"), "obsolete page");
+  await writeFile(resolve(output, "services.html"), "obsolete membership page");
+  await writeFile(resolve(output, "about.html"), "obsolete about page");
   await writeFile(resolve(output, "images/removed-image.txt"), "obsolete image");
   try {
     await execute(process.execPath, ["scripts/build-static.mjs"], {
@@ -228,11 +231,13 @@ test("build prunes stale pages/assets and uses the deployment URL for sitemap an
     assert.ok(configuredHome.includes('data-api-key="test-google-browser-key"'), "CI browser key must override local configuration");
     assert.ok(configuredHome.includes('data-place-id="ChIJtest"'), "CI Place ID must override the configured default");
     await assert.rejects(stat(resolve(output, "removed-page.html")), { code: "ENOENT" });
+    await assert.rejects(stat(resolve(output, "services.html")), { code: "ENOENT" });
+    await assert.rejects(stat(resolve(output, "about.html")), { code: "ENOENT" });
     await assert.rejects(stat(resolve(output, "images/removed-image.txt")), { code: "ENOENT" });
     const sitemap = await readFile(resolve(output, "sitemap.xml"), "utf8");
-    assert.equal([...sitemap.matchAll(/<loc>/g)].length, 10);
+    assert.equal([...sitemap.matchAll(/<loc>/g)].length, 8);
     assert.match(sitemap, /https:\/\/example.test\/group\/titan-gym\/index.html/);
-    assert.doesNotMatch(sitemap, /404.html|titan-nutrition|facility.html/);
+    assert.doesNotMatch(sitemap, /404.html|titan-nutrition|(?:facility|services|about)\.html/);
     const errorPage = await readFile(resolve(output, "404.html"), "utf8");
     const [, base] = errorPage.match(/<base href="([^"]+)"/) ?? [];
     assert.equal(base, "https://example.test/group/titan-gym/");

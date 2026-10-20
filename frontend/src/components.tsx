@@ -45,8 +45,8 @@ export function Header({ pathname }: { pathname: string }) {
 
           <nav className={`site-nav ${menuOpen ? "site-nav--open" : ""}`} id="primary-navigation" aria-label="Main navigation">
             {navigation.map((item) => {
-              const href = item.href === "/#gallery"
-                ? (pathname === "/" ? "#gallery" : "./index.html#gallery")
+              const href = item.href.startsWith("/#")
+                ? (pathname === "/" ? item.href.slice(1) : `./index.html${item.href.slice(1)}`)
                 : (item.href === "/" ? "./index.html" : `.${item.href}.html`);
               return (
                 <a key={item.href} href={href} aria-current={pathname === item.href ? "page" : undefined} onClick={() => setMenuOpen(false)}>
@@ -94,9 +94,8 @@ export function Footer() {
           <h2>Explore</h2>
           <ul className="footer-links">
             <li><a href="./index.html#gallery">Gallery</a></li>
-            <li><a href="./services.html">Membership & training</a></li>
+            <li><a href="./index.html#membership">Membership</a></li>
             <li><a href="./reviews.html">Member stories</a></li>
-            <li><a href="./about.html">About</a></li>
             <li><a href="./exercise-tutorial-videos.html">Exercise tutorials</a></li>
             <li><a href="./socials.html">Socials</a></li>
             <li><a href="./careers.html">Careers</a></li>

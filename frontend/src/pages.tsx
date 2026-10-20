@@ -111,36 +111,12 @@ export function HomePage() {
   );
 }
 
-export function ServicesPage() {
-  return (
-    <>
-      <PageHero eyebrow="Membership & training" title="Find your way to strong." description="Open gym access and personal support for the goals that matter to you." image="./images/strength-racks.jpg" imageAlt="Power racks and barbells inside Titan Gym"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
-      <section className="section section--light"><div className="container"><SectionHeading eyebrow="Open gym" title="Choose your way in." description="Memberships and passes currently listed by Titan Gym." /><div className="plan-grid">{plans.map((plan) => <article className={`plan-card ${plan.featured ? "plan-card--featured" : ""}`} key={plan.name}><p className="plan-card__label">{plan.featured ? "Annual plan" : "Open gym"}</p><h3>{plan.name}</h3><MembershipPrice plan={plan} /><MembershipDetails plan={plan} /><ButtonLink href={site.signupUrl} external variant={plan.featured ? "solid" : "outline"}>Join online</ButtonLink></article>)}</div><p className="fine-print">Ask our team for current billing, access, and cancellation terms before joining.</p></div></section>
-      <section className="section section--dark"><div className="container training-grid"><div><SectionHeading eyebrow="Personal training" title="A plan built around you." /><p>Trainers start with your goals, daily routine, and experience. From there, they can help you create a workout plan and build habits that last.</p><ButtonLink href="./join-now.html">Talk to a trainer</ButtonLink></div><div className="training-options"><article><span>01</span><h3>Initial consultation</h3><p>Start with a conversation about your goals.</p><strong>Free</strong></article><article><span>02</span><h3>30-minute session</h3><p>Focused coaching that fits a tighter schedule.</p><strong>Pricing depends on frequency</strong></article><article><span>03</span><h3>60-minute session</h3><p>More time for a full coaching session.</p><strong>Pricing depends on frequency</strong></article></div></div></section>
-      <section className="section section--light"><div className="container support-grid"><div><p className="eyebrow">Beyond the workout</p><h2>Support for the whole journey.</h2></div><p>Titan Gym's current coaching copy includes personalized training, nutrition guidance, and ongoing check-ins. Ask a trainer which services fit your goals and plan.</p></div></section>
-      <Callout eyebrow="Ready when you are" title="Let's get to work." text="Join online or reach out to find the right fit." />
-    </>
-  );
-}
-
 export function ReviewsPage() {
   return (
     <>
       <PageHero eyebrow="Member stories" title="The people make the place." description="Hear from members who found their place at Titan Gym." image="./images/community.jpg" imageAlt="Titan Gym members training in the weight room" />
       <section className="section section--light"><div className="container"><SectionHeading eyebrow="In their words" title="What members are saying." /><div className="review-grid">{reviews.map((review) => <figure key={review.author}><span className="review-grid__quote" aria-hidden="true">“</span><blockquote>{review.quote}</blockquote><figcaption><strong>{review.author}</strong><span>{review.date}</span></figcaption></figure>)}</div><div className="section-end"><ButtonLink href="https://www.google.com/maps/search/Titan+Gym+Alamo+Ranch+San+Antonio" external variant="outline">See more on Google</ButtonLink></div></div></section>
       <Callout eyebrow="Join the community" title="Experience it for yourself." text="We'd love to meet you at Titan Gym." />
-    </>
-  );
-}
-
-export function AboutPage() {
-  return (
-    <>
-      <PageHero eyebrow="Our story" title="A gym with people at its center." description="Family owned, rooted in faith, and built for the Alamo Ranch community." image="./images/facility-wide.jpg" imageAlt="Inside Titan Gym's training floor and weight area" />
-      <section className="section section--light"><div className="container intro-grid"><div><p className="eyebrow">Why we started</p><h2>Everybody deserves a place to grow stronger.</h2></div><div><p className="lead">Titan Gym began with a simple belief: fitness should feel personal and rooted in community.</p><p>We set out to create a space where first timers and experienced athletes alike feel at home. The work is yours, but you don't have to do it alone.</p></div></div></section>
-      <section className="section section--dark"><div className="container"><SectionHeading eyebrow="What guides us" title="The values behind the work." /><div className="values-grid"><article><span>01</span><h3>Family first</h3><p>We welcome and support people at every stage of their fitness journey.</p></article><article><span>02</span><h3>Faith driven</h3><p>Our faith shapes the way we care for this community and the people in it.</p></article><article><span>03</span><h3>Progress focused</h3><p>We pay attention to your goals and the steps that move you toward them.</p></article><article><span>04</span><h3>Community built</h3><p>San Antonio is home. We are proud to serve our Alamo Ranch neighbors.</p></article></div></div></section>
-      <section className="section section--image-quote"><div className="container"><p className="eyebrow">Philippians 4:13</p><blockquote>“I can do all this through him who gives me strength.”</blockquote></div></section>
-      <Callout eyebrow="Come visit" title="Get to know Titan Gym in person." text="Stop by our Alamo Ranch facility. We'd love to meet you." />
     </>
   );
 }

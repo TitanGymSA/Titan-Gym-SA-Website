@@ -1,0 +1,10 @@
+.DS_Store
+.env*
+!frontend/.env.google-template
+node_modules/
+dist/
+/public/
+.vite/
+npm-debug.log*
+*.log
+/.tools/

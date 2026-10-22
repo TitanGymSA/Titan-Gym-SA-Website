@@ -1,6 +1,6 @@
 import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { resolve, sep } from "node:path";
+import { dirname, resolve, sep } from "node:path";
 import { createServer } from "vite";
 
 const frontend = fileURLToPath(new URL("../", import.meta.url));
@@ -30,6 +30,7 @@ async function listFiles(directory, prefix = "") {
 
 async function build() {
   const { pagePaths, pageFilename, renderPage } = await server.ssrLoadModule("/src/entry-static.tsx");
+  const { legacyRedirects, renderRedirect } = await server.ssrLoadModule("/src/redirects.tsx");
   await mkdir(output, { recursive: true });
   await cp(resolve(frontend, "public/images"), resolve(output, "images"), { recursive: true });
   await cp(resolve(frontend, "public/videos"), resolve(output, "videos"), { recursive: true });
@@ -41,6 +42,17 @@ async function build() {
 
   for (const pathname of pagePaths) {
     await writeFile(resolve(output, pageFilename(pathname)), renderPage(pathname, siteUrl?.href));
+  }
+
+  const redirectFiles = [];
+  for (const [slug, target] of Object.entries(legacyRedirects)) {
+    // Flat aliases support GitHub Pages' extensionless URLs; directory aliases
+    // also support old links with a trailing slash.
+    for (const filename of [`${slug}.html`, `${slug}/index.html`]) {
+      await mkdir(dirname(resolve(output, filename)), { recursive: true });
+      await writeFile(resolve(output, filename), renderRedirect(target, filename.includes("/"), siteUrl?.href));
+      redirectFiles.push(filename);
+    }
   }
 
   let robots = "User-agent: *\nAllow: /\n";
@@ -58,6 +70,7 @@ async function build() {
   // emptying the served directory while Live Server is using it.
   const expected = new Set([
     ...pagePaths.map(pageFilename), "styles.css", "site.js", "headline.js", "gallery.js", "inline-gallery.js", "robots.txt",
+    ...redirectFiles,
     ...await listFiles(resolve(frontend, "public/images"), "images/"),
     ...await listFiles(resolve(frontend, "public/videos"), "videos/"),
     ...(siteUrl ? ["sitemap.xml"] : []),
@@ -67,7 +80,7 @@ async function build() {
     if (!target.startsWith(output + sep)) throw new Error(`Invalid generated path: ${file}`);
     if (!expected.has(file)) await rm(target, { force: true });
   }
-  console.log(`Built ${pagePaths.length - 1} pages and 404.html in ${output}`);
+  console.log(`Built ${pagePaths.length - 1} pages, 404.html, and ${redirectFiles.length} redirect files in ${output}`);
 }
 
 try {

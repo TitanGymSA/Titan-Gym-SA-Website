@@ -8,6 +8,7 @@ import { MembershipPrice } from "./MembershipPrice";
 import { MembershipDetails } from "./MembershipDetails";
 import { PhotoGallery } from "./PhotoGallery";
 import { PhoneNumber } from "./PhoneNumber";
+import { imageVariant, ResponsiveImage } from "./ResponsiveImage";
 import { bodybuildingMedia, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, roles, site } from "./siteData";
 
 const gymHighlights = ["Family owned", "Open gym", "Personal training", "Alamo Ranch, TX", "All fitness levels"];
@@ -51,7 +52,7 @@ export function HomePage() {
   return (
     <>
       <section className="home-hero">
-        <div className="home-hero__image"><img src="./images/hero.jpg" alt="Wide view of Titan Gym's training floor in Alamo Ranch" width="1600" height="1200" fetchPriority="high" /></div>
+        <div className="home-hero__image"><ResponsiveImage src="./images/hero.jpg" alt="Wide view of Titan Gym's training floor in Alamo Ranch" sizes="(max-width: 760px) max(100vw, 854px), 100vw" preferredWidth={1920} fetchPriority="high" /></div>
         <div className="container home-hero__content">
           <HomeHeadline />
           <p>Find your rhythm with a family-owned gym in Alamo Ranch.</p>
@@ -64,21 +65,21 @@ export function HomePage() {
 
       <GymHighlights />
 
-      <section className="section section--light home-intro">
-        <div className="home-intro__media" aria-hidden="true"><img src="./images/community.jpg" alt="" loading="lazy" /></div>
+      <section className="section section--light home-intro" id="about">
+        <div className="home-intro__media" aria-hidden="true"><ResponsiveImage src="./images/community.jpg" alt="" sizes="(max-width: 760px) 100vw, 58vw" loading="lazy" /></div>
         <div className="container intro-grid intro-grid--home">
           <div><p className="eyebrow">Welcome to Titan Gym</p><h2>Family owned<br />In Alamo Ranch</h2></div>
           <div><p className="lead">A family tradition of health &amp; wellness</p><p>We believe taking care of yourself should fit into everyday life. We built Titan Gym as a place to do that with familiar faces and room to work towards your goals.</p></div>
         </div>
       </section>
 
-      <section className="section section--dark home-offerings">
+      <section className="section section--dark home-offerings" aria-labelledby="offerings-title">
         <div className="container">
-          <SectionHeading eyebrow="At Titan Gym" title="Your Gym, Your Way" />
+          <SectionHeading id="offerings-title" eyebrow="At Titan Gym" title="Your Gym, Your Way" />
           <div className="feature-grid">
             <InlineMediaGallery title="Open gym" slides={openGymMedia} />
             <InlineMediaGallery title="Personal training" slides={personalTrainingMedia} />
-            <InlineMediaGallery title="Nutrition coaching" slides={nutritionCoachingMedia} />
+            <InlineMediaGallery id="nutrition-coaching" title="Nutrition coaching" slides={nutritionCoachingMedia} />
             <InlineMediaGallery title="Bodybuilding" slides={bodybuildingMedia} />
             {showShakeBar && <article className="feature-card feature-card--secondary feature-card--video">
               <h3>Shake bar</h3>
@@ -89,7 +90,7 @@ export function HomePage() {
                 </ul>
                 <p className="shake-card__addons">Add-ons: creatine, caffeine &amp; protein.</p>
               </div>
-              <div className="offering-card__media"><video autoPlay loop muted playsInline preload="none" poster="./images/shake-bar/shake-handoff.jpg" width="540" height="960" aria-hidden="true"><source src="./videos/shake-bar/shake-handoff.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)" /></video></div>
+              <div className="offering-card__media"><video autoPlay loop muted playsInline preload="none" poster={imageVariant("./images/shake-bar/shake-handoff.jpg").src} width="540" height="960" aria-hidden="true"><source src="./videos/shake-bar/shake-handoff.mp4" type="video/mp4" media="(prefers-reduced-motion: no-preference)" /></video></div>
             </article>}
           </div>
         </div>
@@ -97,8 +98,8 @@ export function HomePage() {
 
       <PhotoGallery />
 
-      <section className="section section--light" id="membership" tabIndex={-1} aria-label="Membership options">
-        <div className="container"><SectionHeading eyebrow="Membership" title="Invest in yourself" /><MembershipPreview /><h2 className="membership-specials">Visit for current specials!</h2></div>
+      <section className="section section--light" id="membership" tabIndex={-1} aria-labelledby="membership-title">
+        <div className="container"><SectionHeading id="membership-title" eyebrow="Membership" title="Invest in yourself" /><MembershipPreview /><h2 className="membership-specials">Visit for current specials!</h2></div>
       </section>
 
       <Callout eyebrow="Visit Titan Gym" title="Still deciding?" text={["Stop by and check out the gym for yourself. Day and week passes can be purchased at the front desk, in person only.", "Give us a call with any questions before you visit. We’re happy to help."]}>
@@ -114,7 +115,23 @@ export function JoinPage() {
   return (
     <>
       <PageHero eyebrow="Join Titan Gym" title="Stop by, say hi" description="We're happy to chat! Email, Call, or best of all, stop by to check out our gym in person." image="./images/hero.jpg" imageAlt="Titan Gym's free weight and strength training floor"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
-      <section className="section section--light contact-section"><div className="contact-section__media" aria-hidden="true"><img src="./images/owners.jpg" alt="" width="2316" height="3088" loading="lazy" decoding="async" /></div><div className="container join-grid"><div><p className="eyebrow">Get in touch</p><h2>Let's talk about your goals.</h2><p>Questions about memberships, coaching, or getting started? Reach us here.</p><div className="contact-methods"><div><span>Call</span><a href={site.phoneHref}><PhoneNumber /></a></div><div><span>Email</span><a href={`mailto:${site.email}`}><EmailAddress /></a></div><div><span>Visit</span><address>{site.addressLine}<br />{site.cityLine}</address></div></div><ButtonLink href={site.mapsUrl} external variant="text">Get directions</ButtonLink></div><div className="join-grid__contact"><h3>Talk with us</h3><ContactOptions /></div></div></section>
+      <section className="section section--light contact-section" aria-labelledby="contact-title">
+        <div className="contact-section__media" aria-hidden="true"><ResponsiveImage src="./images/owners.jpg" alt="" sizes="(max-width: 760px) 100vw, 68vw" loading="lazy" decoding="async" /></div>
+        <div className="container join-grid">
+          <div>
+            <p className="eyebrow">Get in touch</p>
+            <h2 id="contact-title">Let's talk about your goals.</h2>
+            <p>Questions about memberships, coaching, or getting started? Reach us here.</p>
+            <dl className="contact-methods">
+              <div><dt>Call</dt><dd><a href={site.phoneHref}><PhoneNumber /></a></dd></div>
+              <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}><EmailAddress /></a></dd></div>
+              <div><dt>Visit</dt><dd><address>{site.addressLine}<br />{site.cityLine}</address></dd></div>
+            </dl>
+            <ButtonLink href={site.mapsUrl} external variant="text">Get directions</ButtonLink>
+          </div>
+          <div className="join-grid__contact"><h3>Talk with us</h3><ContactOptions /></div>
+        </div>
+      </section>
     </>
   );
 }

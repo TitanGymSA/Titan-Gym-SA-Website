@@ -1,12 +1,29 @@
+const address = {
+  streetAddress: "11720 Alamo Ranch Parkway, Suite 240",
+  addressLocality: "San Antonio",
+  addressRegion: "TX",
+  postalCode: "78253",
+  addressCountry: "US",
+} as const;
+
 export const site = {
   name: "Titan Gym",
-  addressLine: "11720 Alamo Ranch Parkway, Suite 240",
-  cityLine: "San Antonio, TX 78253",
+  url: "https://titangymsa.com/",
+  address,
+  addressLine: address.streetAddress,
+  cityLine: `${address.addressLocality}, ${address.addressRegion} ${address.postalCode}`,
   phone: "210-267-2206",
   phoneHref: "tel:+12102672206",
   email: "info@titangymsa.com",
   signupUrl: "https://titan-gym.gymdesk.com/signup/v/lBZ8q",
   mapsUrl: "https://maps.app.goo.gl/PkzJchsbTsUVUgJ86",
+  shareImage: {
+    src: "images/hero.jpg",
+    alt: "Titan Gym training floor in Alamo Ranch, San Antonio",
+    width: 2560,
+    height: 1920,
+    type: "image/jpeg",
+  },
   social: {
     facebook: "https://www.facebook.com/112064848507841",
     instagram: "https://www.instagram.com/titangymsa/",
@@ -21,11 +38,22 @@ export const navigation = [
   { label: "Contact us", href: "/join-now" },
 ] as const;
 
-export const hours = [
-  { day: "Monday – Friday", time: "5:00 AM – 10:00 PM" },
-  { day: "Saturday", time: "8:00 AM – 7:00 PM" },
-  { day: "Sunday", time: "10:00 AM – 6:00 PM" },
+const weeklyHours = [
+  { day: "Monday – Friday", days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "05:00", closes: "22:00" },
+  { day: "Saturday", days: ["Saturday"], opens: "08:00", closes: "19:00" },
+  { day: "Sunday", days: ["Sunday"], opens: "10:00", closes: "18:00" },
 ] as const;
+
+function formatOpeningTime(time: string) {
+  const [hour, minutes] = time.split(":");
+  const number = Number(hour);
+  return `${number % 12 || 12}:${minutes} ${number < 12 ? "AM" : "PM"}`;
+}
+
+export const hours = weeklyHours.map((period) => ({
+  ...period,
+  time: `${formatOpeningTime(period.opens)} – ${formatOpeningTime(period.closes)}`,
+}));
 
 export type MembershipPlan = {
   name: string;

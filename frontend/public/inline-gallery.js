@@ -8,8 +8,12 @@
       gallery.dataset.inlineGalleryReady = "true";
       const status = gallery.querySelector("[data-media-status]");
       const thumbnailStrip = gallery.querySelector(".inline-media-gallery__thumbnails");
+      const stage = gallery.querySelector(".feature-card__media");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const warmedVideos = new WeakSet();
       let currentIndex = 0;
+      let nearViewport = false;
+      let inViewport = false;
 
       // Touch keeps native scrolling and page gestures. Mouse dragging begins
       // after a small movement, so a normal click still selects a thumbnail.
@@ -56,11 +60,28 @@
         thumbnailStrip.addEventListener("dragstart", (event) => event.preventDefault());
       }
 
+      function preloadSlides() {
+        if (!nearViewport || document.hidden) return;
+        // Warm the selected and next slides, not the entire gallery.
+        for (const index of [currentIndex, (currentIndex + 1) % slides.length]) {
+          const slide = slides[index];
+          const image = slide.querySelector("img");
+          if (image) image.loading = "eager";
+          const video = slide.querySelector("video");
+          if (video && !reducedMotion.matches && !warmedVideos.has(video)) {
+            warmedVideos.add(video);
+            video.preload = "auto";
+            video.load();
+          }
+        }
+      }
+
       function updatePlayback() {
+        preloadSlides();
         slides.forEach((slide, index) => {
           const video = slide.querySelector("video");
           if (!video) return;
-          if (index === currentIndex && !reducedMotion.matches && !document.hidden) {
+          if (index === currentIndex && inViewport && !reducedMotion.matches && !document.hidden) {
             video.play().catch(() => {});
           } else video.pause();
         });
@@ -92,6 +113,32 @@
       reducedMotion.addEventListener("change", updatePlayback);
       document.addEventListener("visibilitychange", updatePlayback);
       showSlide(0, false);
+
+      if ("IntersectionObserver" in window) {
+        const preloadObserver = new window.IntersectionObserver(([entry]) => {
+          nearViewport = entry.isIntersecting;
+          preloadSlides();
+        }, { rootMargin: "600px 0px" });
+        const playbackObserver = new window.IntersectionObserver(([entry]) => {
+          inViewport = entry.isIntersecting && entry.intersectionRatio >= 0.01;
+          if (inViewport) nearViewport = true;
+          updatePlayback();
+        }, { threshold: 0.01 });
+        preloadObserver.observe(stage);
+        playbackObserver.observe(stage);
+      } else {
+        // Older browsers still pause offscreen; loading and playback stay separate.
+        function measureViewport() {
+          const rect = stage.getBoundingClientRect();
+          const horizontallyVisible = rect.right > 0 && rect.left < window.innerWidth;
+          inViewport = horizontallyVisible && rect.bottom > 0 && rect.top < window.innerHeight;
+          nearViewport = horizontallyVisible && rect.bottom > -600 && rect.top < window.innerHeight + 600;
+          updatePlayback();
+        }
+        window.addEventListener("scroll", measureViewport, { passive: true });
+        window.addEventListener("resize", measureViewport);
+        measureViewport();
+      }
     }
   }
 

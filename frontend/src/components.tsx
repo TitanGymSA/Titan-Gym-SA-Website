@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EmailAddress } from "./EmailAddress";
 import { ArrowIcon, FacebookIcon, InstagramIcon, YouTubeIcon } from "./Icons";
 import { PhoneNumber } from "./PhoneNumber";
+import { ResponsiveImage } from "./ResponsiveImage";
 import { hours, navigation, site } from "./siteData";
 
 type ButtonLinkProps = {
@@ -41,7 +42,7 @@ export function Header({ pathname }: { pathname: string }) {
       <header className="site-header">
         <div className="container site-header__inner">
           <a className="brand brand--header" href="./index.html" aria-label="Titan Gym home">
-            <img src="./images/Logo_Dark_V2_w_Text.png" alt="" width="1589" height="1222" />
+            <ResponsiveImage src="./images/Logo_Dark_V2_w_Text.png" alt="" sizes="(max-width: 760px) 71px, 86px" preferredWidth={192} />
           </a>
 
           <nav className={`site-nav ${menuOpen ? "site-nav--open" : ""}`} id="primary-navigation" aria-label="Main navigation">
@@ -81,23 +82,23 @@ export function Footer() {
       <div className="container footer-grid">
         <div className="footer-brand">
           <a className="brand brand--footer" href="./index.html" aria-label="Titan Gym home">
-            <img src="./images/logo-horizontal.png" alt="" width="1534" height="272" />
+            <ResponsiveImage src="./images/logo-horizontal.png" alt="" sizes="(max-width: 328px) calc(100vw - 28px), 300px" preferredWidth={600} />
           </a>
           <p>A family gym, right here in Alamo Ranch.</p>
-          <div className="footer-socials">
+          <div className="footer-socials" id="socials">
             <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Facebook" title="Facebook"><FacebookIcon /></a>
             <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Instagram" title="Instagram"><InstagramIcon /></a>
             <a href={site.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on YouTube" title="YouTube"><YouTubeIcon /></a>
           </div>
         </div>
-        <div>
-          <h2>Explore</h2>
+        <nav aria-labelledby="footer-explore-title">
+          <h2 id="footer-explore-title">Explore</h2>
           <ul className="footer-links">
             <li><a href="./index.html#gallery">Gallery</a></li>
             <li><a href="./index.html#membership">Membership</a></li>
             <li><a href="./careers.html">Careers</a></li>
           </ul>
-        </div>
+        </nav>
         <div>
           <h2>Visit us</h2>
           <address>{site.addressLine}<br />{site.cityLine}</address>
@@ -130,7 +131,7 @@ type PageHeroProps = {
 export function PageHero({ eyebrow, title, description, image, imageAlt, children }: PageHeroProps) {
   return (
     <section className="page-hero">
-      <div className="page-hero__media"><img src={image} alt={imageAlt} /></div>
+      <div className="page-hero__media"><ResponsiveImage src={image} alt={imageAlt} sizes="100vw" preferredWidth={1920} /></div>
       <div className="container page-hero__content">
         <p className="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
@@ -141,11 +142,11 @@ export function PageHero({ eyebrow, title, description, image, imageAlt, childre
   );
 }
 
-export function SectionHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) {
+export function SectionHeading({ id, eyebrow, title, description }: { id?: string; eyebrow: string; title: string; description?: string }) {
   return (
     <div className="section-heading">
       <p className="eyebrow">{eyebrow}</p>
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {description ? <p>{description}</p> : null}
     </div>
   );

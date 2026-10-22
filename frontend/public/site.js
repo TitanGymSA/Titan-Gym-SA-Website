@@ -40,3 +40,17 @@ document.addEventListener("keydown", (event) => {
     menuButton.focus();
   }
 });
+
+// Request nearby lazy images early while retaining responsive candidate selection.
+if (typeof IntersectionObserver !== "undefined") {
+  const imageObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.loading = "eager";
+      imageObserver.unobserve(entry.target);
+    }
+  }, { rootMargin: "600px 0px" });
+  for (const image of document.querySelectorAll('img[loading="lazy"]')) {
+    imageObserver.observe(image);
+  }
+}

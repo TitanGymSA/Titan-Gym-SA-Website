@@ -15,6 +15,9 @@
     function showPhoto(index) {
       currentIndex = (index + thumbnails.length) % thumbnails.length;
       const photo = thumbnails[currentIndex].dataset;
+      image.srcset = photo.gallerySrcset;
+      image.width = Number(photo.galleryWidth);
+      image.height = Number(photo.galleryHeight);
       image.src = photo.gallerySrc;
       image.alt = photo.galleryAlt;
       status.textContent = `Photo ${currentIndex + 1} of ${thumbnails.length}: ${photo.galleryAlt}`;

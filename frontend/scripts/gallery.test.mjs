@@ -21,7 +21,12 @@ function fixture(readyState = "complete") {
     };
   }
   const thumbnails = Array.from({ length: 6 }, (_, index) => element({
-    dataset: { gallerySrc: `./images/photo-${index}.jpg`, galleryAlt: `Gym photo ${index}` },
+    dataset: {
+      gallerySrc: `./images/photo-${index}-960.webp`,
+      gallerySrcset: `./images/photo-${index}-480.webp 480w, ./images/photo-${index}-960.webp 960w`,
+      galleryWidth: "960", galleryHeight: String(720 + index * 100),
+      galleryAlt: `Gym photo ${index}`,
+    },
   }));
   const image = {};
   const status = {};
@@ -59,6 +64,8 @@ test("gallery opens modally, ignores background thumbnail activation, and backdr
   assert.equal(dialog.modalCount, 1);
   assert.equal(dialog.open, true);
   assert.equal(image.src, thumbnails[2].dataset.gallerySrc);
+  assert.equal(image.srcset, thumbnails[2].dataset.gallerySrcset);
+  assert.equal(image.height, Number(thumbnails[2].dataset.galleryHeight));
   assert.match(status.textContent, /Photo 3 of 6/);
   thumbnails[0].fire("click");
   assert.equal(dialog.modalCount, 1);
@@ -77,8 +84,11 @@ test("gallery arrows and keyboard navigate both directions and wrap at either en
   thumbnails[0].fire("click");
   previous.fire("click");
   assert.equal(image.src, thumbnails[5].dataset.gallerySrc);
+  assert.equal(image.srcset, thumbnails[5].dataset.gallerySrcset);
+  assert.equal(image.height, Number(thumbnails[5].dataset.galleryHeight));
   next.fire("click");
   assert.equal(image.src, thumbnails[0].dataset.gallerySrc);
+  assert.equal(image.srcset, thumbnails[0].dataset.gallerySrcset);
   let prevented = 0;
   dialog.fire("keydown", { key: "ArrowRight", preventDefault: () => prevented++ });
   assert.equal(image.src, thumbnails[1].dataset.gallerySrc);

@@ -195,6 +195,28 @@ test("build prunes stale assets and preserves deployment paths for sitemap and n
     const business = JSON.parse(configuredHome.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
     assert.equal(business.url, "https://example.test/group/titan-gym/index.html");
     assert.equal(business["@id"], "https://example.test/group/titan-gym/#gym");
+    const academyHtml = await readFile(resolve(output, "texas-sports-academy.html"), "utf8");
+    const academySchema = JSON.parse(academyHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    const service = academySchema["@graph"].find((node) => node["@type"] === "Service");
+    const provider = academySchema["@graph"].find((node) => node["@id"] === service.provider["@id"]);
+    assert.deepEqual(provider, Object.fromEntries(Object.entries(business).filter(([key]) => key !== "@context")));
+    assert.equal(service.url, academyHtml.match(/rel="canonical" href="([^"]+)"/)[1]);
+    assert.equal(service.audience.requiredMinAge, 8);
+    assert.match(academyHtml, /ages 8 and up/);
+    assert.deepEqual(service.offers.map((offer) => offer.priceSpecification.price), [200, 400]);
+    for (const offer of service.offers) {
+      assert.equal(offer.itemOffered["@id"], service["@id"]);
+      assert.equal(offer.seller["@id"], business["@id"]);
+      assert.equal(offer.priceSpecification.priceCurrency, "USD");
+      assert.equal(offer.priceSpecification.billingDuration, "P1M");
+      assert.match(offer.description, /parent cost is \$0/);
+      assert.ok(academyHtml.includes(`$${offer.priceSpecification.price} per month · school-paid`));
+      assert.ok(academyHtml.includes(offer.description.split(". ")[0]));
+      assert.equal(offer.url, `${service.url}#student-visit`);
+      assert.ok(academyHtml.includes(`id="${new URL(offer.url).hash.slice(1)}"`));
+    }
+    assert.equal(service.availableChannel[0].servicePhone.telephone, business.telephone);
+    assert.equal(service.availableChannel[1].serviceLocation["@id"], business["@id"]);
     const canonical = configuredHome.match(/<link rel="canonical" href="([^"]+)"/)[1];
     const shareUrl = configuredHome.match(/property="og:url" content="([^"]+)"/)[1];
     const shareImage = configuredHome.match(/property="og:image" content="([^"]+)"/)[1];

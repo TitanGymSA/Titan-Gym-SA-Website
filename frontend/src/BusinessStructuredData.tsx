@@ -1,8 +1,7 @@
 import { hours, site } from "./siteData";
 
-export function BusinessStructuredData({ siteUrl = site.url }: { siteUrl?: string }) {
-  const business = {
-    "@context": "https://schema.org",
+export function businessStructuredData(siteUrl: string) {
+  return {
     "@type": "HealthClub",
     "@id": new URL("#gym", siteUrl).href,
     name: site.name,
@@ -21,7 +20,10 @@ export function BusinessStructuredData({ siteUrl = site.url }: { siteUrl?: strin
       closes,
     })),
   };
+}
 
+export function BusinessStructuredData({ siteUrl = site.url }: { siteUrl?: string }) {
+  const business = { "@context": "https://schema.org", ...businessStructuredData(siteUrl) };
   // Keep JSON valid inside an HTML script element, including future copy edits.
   const json = JSON.stringify(business).replace(/</g, "\\u003c");
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: json }} />;

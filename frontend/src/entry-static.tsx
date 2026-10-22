@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { App, routes } from "./App";
 import { BusinessStructuredData } from "./BusinessStructuredData";
+import { AcademyStructuredData } from "./AcademyStructuredData";
 import { site } from "./siteData";
 import { imageVariant } from "./ResponsiveImage";
 
@@ -42,6 +43,7 @@ export function renderPage(pathname: string, siteUrl?: string) {
           </>
         ) : null}
         {pathname === "/" ? <BusinessStructuredData siteUrl={publicSiteUrl} /> : null}
+        {pathname === "/texas-sports-academy" ? <AcademyStructuredData siteUrl={publicSiteUrl} /> : null}
         <link rel="icon" type="image/webp" href={imageVariant("./images/logo-mark.png", 64).src} />
         <link rel="stylesheet" href="./styles.css" />
         <title>{route?.title ?? "Page not found | Titan Gym"}</title>

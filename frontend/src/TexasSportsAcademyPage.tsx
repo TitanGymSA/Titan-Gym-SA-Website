@@ -1,20 +1,15 @@
 import { AcademyHeadline } from "./AcademyHeadline";
+import { academyUrl, studentPlans } from "./academyData";
 import { ButtonLink, Callout, SectionHeading } from "./components";
 import { ArrowIcon, PhoneIcon } from "./Icons";
 import { ResponsiveImage } from "./ResponsiveImage";
 import { site } from "./siteData";
 
-const academyUrl = "https://online.sportsacademy.school/";
 const fundingUrl = "https://educationfreedom.texas.gov/families/";
 
 function AcademyLink() {
   return <a className="academy-name-link" href={academyUrl} target="_blank" rel="noopener noreferrer">Texas Sports Academy Online</a>;
 }
-
-const studentPlans = [
-  { title: "Once a week", amount: "$200", sessions: "1 coached session per week" },
-  { title: "Twice a week", amount: "$400", sessions: "2 coached sessions per week" },
-] as const;
 
 const trainingTopics = [
   { title: "Start with their goals", text: "A stronger foundation for their sport, learning their way around the gym, or building a steady routine. Tell us what your student wants to work on." },
@@ -98,11 +93,11 @@ export function TexasSportsAcademyPage() {
           </div>
           <div className="plan-grid plan-grid--preview">
             {studentPlans.map((plan) => (
-              <article className="plan-card academy-plan" key={plan.amount}>
+              <article className="plan-card academy-plan" key={plan.id}>
                 <p className="plan-card__label">Paid by the school</p>
                 <h4>{plan.title}</h4>
                 <p className="plan-card__price">$0<span>parent cost</span></p>
-                <p className="academy-plan__school-cost">{plan.amount} per month · school-paid</p>
+                <p className="academy-plan__school-cost">${plan.schoolPaidMonthlyAmount} per month · school-paid</p>
                 <ul className="plan-card__features">
                   <li>{plan.sessions}</li>
                   <li>Open gym included</li>

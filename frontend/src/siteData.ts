@@ -35,6 +35,7 @@ export const navigation = [
   { label: "Home", href: "/" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Membership", href: "/#membership" },
+  { label: "Student training", href: "/texas-sports-academy" },
   { label: "Contact us", href: "/join-now" },
 ] as const;
 

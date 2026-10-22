@@ -49,6 +49,7 @@ export function renderPage(pathname: string, siteUrl?: string) {
       <body>
         <App pathname={pathname} />
         {pathname === "/" ? <script src="./headline.js" defer /> : null}
+        {pathname === "/texas-sports-academy" ? <script src="./academy-headline.js" defer /> : null}
         {pathname === "/" ? <script src="./gallery.js" defer /> : null}
         {pathname === "/" ? <script src="./inline-gallery.js" defer /> : null}
         <script src="./site.js" defer />

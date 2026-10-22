@@ -36,6 +36,7 @@ async function build() {
   await cp(resolve(frontend, "public/videos"), resolve(output, "videos"), { recursive: true });
   await cp(resolve(frontend, "public/site.js"), resolve(output, "site.js"));
   await cp(resolve(frontend, "public/headline.js"), resolve(output, "headline.js"));
+  await cp(resolve(frontend, "public/academy-headline.js"), resolve(output, "academy-headline.js"));
   await cp(resolve(frontend, "public/gallery.js"), resolve(output, "gallery.js"));
   await cp(resolve(frontend, "public/inline-gallery.js"), resolve(output, "inline-gallery.js"));
   await cp(resolve(frontend, "src/styles.css"), resolve(output, "styles.css"));
@@ -69,7 +70,7 @@ async function build() {
   // public/ is exclusively generated. Prune removed routes/assets without
   // emptying the served directory while Live Server is using it.
   const expected = new Set([
-    ...pagePaths.map(pageFilename), "styles.css", "site.js", "headline.js", "gallery.js", "inline-gallery.js", "robots.txt",
+    ...pagePaths.map(pageFilename), "styles.css", "site.js", "headline.js", "academy-headline.js", "gallery.js", "inline-gallery.js", "robots.txt",
     ...redirectFiles,
     ...await listFiles(resolve(frontend, "public/images"), "images/"),
     ...await listFiles(resolve(frontend, "public/videos"), "videos/"),

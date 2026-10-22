@@ -8,7 +8,7 @@ npm ci
 npm run build
 ```
 
-Requires Node.js 22 and npm. Open **`titan-gym/` as your VS Code folder**, then click **Go Live**. Workspace settings point Live Server at the generated `public/` folder. If your VS Code workspace is the parent `titan-gym-projects/` folder, right-click **`titan-gym/public/index.html`** and choose **Open with Live Server** instead. The generated folder contains three content pages, a 404 page, legacy redirect files, CSS, images, videos, and browser scripts. Pages are generated from React templates; the published site has no React runtime or server application.
+Requires Node.js 22 and npm. Open **`titan-gym/` as your VS Code folder**, then click **Go Live**. Workspace settings point Live Server at the generated `public/` folder. If your VS Code workspace is the parent `titan-gym-projects/` folder, right-click **`titan-gym/public/index.html`** and choose **Open with Live Server** instead. The generated folder contains the homepage, contact, careers, and Texas Sports Academy pages, a 404 page, legacy redirect files, CSS, images, videos, and browser scripts. Pages are generated from React templates; the published site has no React runtime or server application.
 
 Edit the templates in `frontend/src/`. Run `npm run watch` from `frontend/` to rebuild `public/` as templates, styles, and images change; Live Server reloads the generated files. Use `npm run build` for a one-time rebuild. Do not edit generated `public/` files.
 

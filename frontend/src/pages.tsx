@@ -96,6 +96,13 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="academy-home-link section--dark" aria-labelledby="academy-home-title">
+        <div className="container academy-home-link__inner">
+          <div><p className="eyebrow">Texas Sports Academy</p><h2 id="academy-home-title">Their next chapter starts here.</h2><p>Explore student training at Titan and a guide to getting started for parents.</p></div>
+          <ButtonLink href="./texas-sports-academy.html" variant="outline">Explore student training</ButtonLink>
+        </div>
+      </section>
+
       <PhotoGallery />
 
       <section className="section section--light" id="membership" tabIndex={-1} aria-labelledby="membership-title">

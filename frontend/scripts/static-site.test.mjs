@@ -16,7 +16,11 @@ for (const prefix of ["/", "/group/titan-gym/"]) {
   test(`local links, images, and assets resolve under ${prefix}`, async () => {
     for (const filename of files) {
       const html = await readFile(resolve(output, filename), "utf8");
-      for (const [, reference] of html.matchAll(/(?:href|src|poster)="([^"]+)"/g)) {
+      const references = [...html.matchAll(/(?:href|src|poster)="([^"]+)"/g)].map((match) => match[1]);
+      for (const [, srcset] of html.matchAll(/(?:srcset|data-gallery-srcset)="([^"]+)"/g)) {
+        references.push(...srcset.split(",").map((candidate) => candidate.trim().split(/\s+/)[0]));
+      }
+      for (const reference of references) {
         if (/^(?:https?:|mailto:|tel:|#)/.test(reference)) continue;
         assert.ok(reference.startsWith("./"), `${filename}: ${reference} must be relative`);
         const target = new URL(reference, `https://example.test${prefix}${filename}`);
@@ -27,6 +31,29 @@ for (const prefix of ["/", "/group/titan-gym/"]) {
     }
   });
 }
+
+test("legacy redirects preserve destinations and fragments from flat and directory paths", async () => {
+  const home = await readFile(resolve(output, "index.html"), "utf8");
+  for (const flat of files) {
+    const flatHtml = await readFile(resolve(output, flat), "utf8");
+    if (!flatHtml.includes('http-equiv="refresh"')) continue;
+    const nested = `${flat.slice(0, -".html".length)}/index.html`;
+    for (const filename of [flat, nested]) {
+      const html = await readFile(resolve(output, filename), "utf8");
+      const destination = html.match(/http-equiv="refresh" content="0; url=([^"]+)"/)?.[1];
+      assert.ok(destination, `${filename}: missing immediate redirect`);
+      const fallback = html.match(/<a href="([^"]+)"/)?.[1];
+      assert.equal(fallback, destination);
+      for (const prefix of ["/", "/group/titan-gym/"]) {
+        const target = new URL(destination, `https://example.test${prefix}${filename}`);
+        assert.equal(target.pathname, `${prefix}index.html`, filename);
+        if (target.hash) assert.ok(home.includes(`id="${target.hash.slice(1)}"`), `${filename}: missing destination anchor`);
+      }
+      const canonical = new URL(html.match(/rel="canonical" href="([^"]+)"/)[1]);
+      assert.equal(canonical.hash, "", "Canonical URLs must identify the page without a fragment");
+    }
+  }
+});
 
 test("published HTML does not expose a Google API key or load its SDK", async () => {
   for (const filename of files) {
@@ -129,6 +156,34 @@ test("gallery navigation closes the mobile menu and preserves native anchor beha
   assert.equal(attributes["aria-expanded"], "false");
 });
 
+test("nearby images are requested early without replacing responsive candidates", async () => {
+  const near = { loading: "lazy", srcset: "./images/small.webp 480w, ./images/large.webp 960w" };
+  const far = { loading: "lazy" };
+  const observed = [];
+  const released = [];
+  let intersect;
+  class ImageObserver {
+    constructor(callback) { intersect = callback; }
+    observe(image) { observed.push(image); }
+    unobserve(image) { released.push(image); }
+  }
+  runInNewContext(await readFile(resolve(output, "site.js"), "utf8"), {
+    IntersectionObserver: ImageObserver,
+    document: {
+      querySelector: () => ({ addEventListener() {} }),
+      getElementById: () => null,
+      querySelectorAll: () => [near, far],
+      addEventListener() {},
+    },
+  });
+  assert.deepEqual(observed, [near, far]);
+  intersect([{ target: far, isIntersecting: false }, { target: near, isIntersecting: true }]);
+  assert.equal(near.loading, "eager");
+  assert.equal(far.loading, "lazy");
+  assert.equal(near.srcset, "./images/small.webp 480w, ./images/large.webp 960w");
+  assert.deepEqual(released, [near]);
+});
+
 test("build prunes stale assets and preserves deployment paths for sitemap and nested 404", async () => {
   await writeFile(resolve(output, "images/removed-image.txt"), "obsolete image");
   try {
@@ -137,11 +192,30 @@ test("build prunes stale assets and preserves deployment paths for sitemap and n
       env: { ...process.env, SITE_URL: "https://example.test/group/titan-gym", GOOGLE_MAPS_API_KEY: "test-google-browser-key", GOOGLE_MAPS_PLACE_ID: "ChIJtest" },
     });
     const configuredHome = await readFile(resolve(output, "index.html"), "utf8");
+    const business = JSON.parse(configuredHome.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    assert.equal(business.url, "https://example.test/group/titan-gym/index.html");
+    assert.equal(business["@id"], "https://example.test/group/titan-gym/#gym");
+    const canonical = configuredHome.match(/<link rel="canonical" href="([^"]+)"/)[1];
+    const shareUrl = configuredHome.match(/property="og:url" content="([^"]+)"/)[1];
+    const shareImage = configuredHome.match(/property="og:image" content="([^"]+)"/)[1];
+    const cardImage = configuredHome.match(/name="twitter:image" content="([^"]+)"/)[1];
+    assert.equal(shareUrl, canonical);
+    assert.equal(canonical, business.url);
+    assert.equal(cardImage, shareImage);
+    for (const resource of [business.logo, business.image, shareImage]) {
+      const url = new URL(resource);
+      assert.ok(url.pathname.startsWith("/group/titan-gym/images/"));
+      assert.ok((await stat(resolve(output, url.pathname.slice("/group/titan-gym/".length)))).isFile());
+    }
     assert.doesNotMatch(configuredHome, /test-google-browser-key|data-api-key|google-reviews\.js/);
     await assert.rejects(stat(resolve(output, "google-reviews.js")), { code: "ENOENT" });
     await assert.rejects(stat(resolve(output, "images/removed-image.txt")), { code: "ENOENT" });
     const sitemap = await readFile(resolve(output, "sitemap.xml"), "utf8");
     assert.match(sitemap, /https:\/\/example.test\/group\/titan-gym\/index.html/);
+    const redirect = await readFile(resolve(output, "facility/index.html"), "utf8");
+    assert.match(redirect, /content="0; url=\.\.\/index\.html#gallery"/);
+    assert.match(redirect, /rel="canonical" href="https:\/\/example.test\/group\/titan-gym\/index.html"/);
+    assert.doesNotMatch(sitemap, /\/facility(?:\.html|\/)/);
     const errorPage = await readFile(resolve(output, "404.html"), "utf8");
     const [, base] = errorPage.match(/<base href="([^"]+)"/) ?? [];
     assert.equal(base, "https://example.test/group/titan-gym/");

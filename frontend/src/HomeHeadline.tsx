@@ -6,7 +6,8 @@ export function HomeHeadline() {
   }, []);
 
   return (
-    <h1 aria-label="Make feeling good part of your routine">
+    <h1>
+      <span className="visually-hidden">Make feeling good part of your routine</span>
       <svg className="home-hero__headline-art" data-titan-headline="" viewBox="0 0 640 234" aria-hidden="true" focusable="false">
         <text data-word="make" x="2" y="29" fontSize="36">MAKE</text>
         <text data-word="feeling" x="0" y="120" fontSize="120">FEELING</text>

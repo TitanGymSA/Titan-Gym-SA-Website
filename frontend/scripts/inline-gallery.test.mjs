@@ -5,7 +5,7 @@ import { test } from "node:test";
 
 const script = await readFile(new URL("../public/inline-gallery.js", import.meta.url), "utf8");
 
-function fixture(reduceMotion = false) {
+function fixture(reduceMotion = false, { visible = true, near = visible, withObserver = true } = {}) {
   function element(extra = {}) {
     const handlers = new Map();
     return {
@@ -18,17 +18,25 @@ function fixture(reduceMotion = false) {
       fire(name, event = {}) { for (const handler of handlers.get(name) ?? []) handler(event); },
     };
   }
-  const video = {
+  const makeVideo = () => ({
     playing: false,
     playCount: 0,
+    loadCount: 0,
+    preload: "none",
+    load() { this.loadCount++; this.playing = false; },
     play() { this.playing = true; this.playCount++; return Promise.resolve(); },
     pause() { this.playing = false; },
-  };
+  });
+  const video = makeVideo();
+  const secondVideo = makeVideo();
+  const image = { loading: "lazy" };
   const slides = Array.from({ length: 3 }, (_, index) => ({
     hidden: index !== 0,
     attributes: {},
     setAttribute(name, value) { this.attributes[name] = value; },
-    querySelector: () => index === 0 ? video : null,
+    querySelector: (selector) => selector === "video"
+      ? [video, secondVideo, null][index]
+      : (index === 2 ? image : null),
   }));
   const status = {};
   const thumbnails = slides.map(() => element({
@@ -46,6 +54,10 @@ function fixture(reduceMotion = false) {
     hasPointerCapture: (id) => captures.has(id),
     releasePointerCapture: (id) => captures.delete(id),
   });
+  const stage = {
+    rect: { top: visible ? 100 : 2000, bottom: visible ? 700 : 2600, left: 0, right: 500 },
+    getBoundingClientRect() { return this.rect; },
+  };
   const gallery = element({
     dataset: {},
     querySelectorAll: (selector) => selector === "[data-media-thumbnail]" ? thumbnails : slides,
@@ -54,13 +66,31 @@ function fixture(reduceMotion = false) {
       "[data-media-previous]": previous,
       "[data-media-next]": next,
       ".inline-media-gallery__thumbnails": thumbnailStrip,
+      ".feature-card__media": stage,
     })[selector],
   });
   const motion = element({ matches: reduceMotion });
   const document = element({ readyState: "complete", hidden: false, querySelectorAll: () => [gallery] });
-  const window = element({ matchMedia: () => motion });
+  const observers = [];
+  class MockObserver {
+    constructor(callback, options) { this.callback = callback; this.options = options; observers.push(this); }
+    observe(target) { this.target = target; }
+    emit(isIntersecting, intersectionRatio = isIntersecting ? 1 : 0) {
+      this.callback([{ target: this.target, isIntersecting, intersectionRatio }]);
+    }
+  }
+  const window = element({
+    matchMedia: () => motion, innerHeight: 768, innerWidth: 1024,
+    ...(withObserver ? { IntersectionObserver: MockObserver } : {}),
+  });
   runInNewContext(script, { document, window });
-  return { slides, thumbnails, thumbnailStrip, video, status, previous, next, gallery, document, window, motion };
+  const preloadObserver = observers.find((observer) => observer.options.rootMargin);
+  const playbackObserver = observers.find((observer) => !observer.options.rootMargin);
+  if (withObserver) {
+    preloadObserver.emit(near);
+    playbackObserver.emit(visible);
+  }
+  return { slides, thumbnails, thumbnailStrip, video, secondVideo, image, stage, preloadObserver, playbackObserver, status, previous, next, gallery, document, window, motion };
 }
 
 test("mouse drag scrolls thumbnails without selecting; clicks and keyboard activation stay usable", () => {
@@ -165,5 +195,67 @@ test("inline gallery respects reduced motion and pauses while the page is hidden
   assert.equal(video.playing, true);
   motion.matches = true;
   motion.fire("change");
+  assert.equal(video.playing, false);
+});
+
+test("nearby galleries preload selected and next media without offscreen playback or repeated loads", () => {
+  const { video, secondVideo, image, next, preloadObserver, playbackObserver } = fixture(false, { visible: false });
+  assert.equal(video.loadCount, 0);
+  assert.equal(video.playCount, 0);
+  preloadObserver.emit(true);
+  assert.equal(video.preload, "auto");
+  assert.equal(video.loadCount, 1);
+  assert.equal(secondVideo.loadCount, 1);
+  assert.equal(video.playing, false);
+  assert.equal(image.loading, "lazy");
+  playbackObserver.emit(true);
+  assert.equal(video.playing, true);
+  next.fire("click");
+  assert.equal(video.playing, false);
+  assert.equal(secondVideo.playing, true);
+  assert.equal(image.loading, "eager");
+  playbackObserver.emit(false);
+  assert.equal(secondVideo.playing, false);
+  playbackObserver.emit(true);
+  assert.equal(secondVideo.playing, true);
+  assert.equal(video.loadCount, 1);
+  assert.equal(secondVideo.loadCount, 1);
+});
+
+test("tab visibility and reduced-motion changes never restart offscreen videos", () => {
+  const { video, motion, document, preloadObserver, playbackObserver } = fixture(true, { visible: false });
+  preloadObserver.emit(true);
+  assert.equal(video.loadCount, 0);
+  document.hidden = true;
+  motion.matches = false;
+  motion.fire("change");
+  assert.equal(video.loadCount, 0);
+  document.hidden = false;
+  document.fire("visibilitychange");
+  assert.equal(video.loadCount, 1);
+  assert.equal(video.playCount, 0);
+  // Edge contact alone is not enough to start a video.
+  playbackObserver.emit(true, 0);
+  assert.equal(video.playCount, 0);
+  playbackObserver.emit(true);
+  assert.equal(video.playing, true);
+  playbackObserver.emit(false);
+  document.fire("visibilitychange");
+  motion.fire("change");
+  assert.equal(video.playing, false);
+});
+
+test("scroll fallback preloads nearby video and pauses it outside the viewport", () => {
+  const { stage, video, window } = fixture(false, { visible: false, withObserver: false });
+  assert.equal(video.playCount, 0);
+  stage.rect = { top: 1000, bottom: 1600, left: 0, right: 500 };
+  window.fire("scroll");
+  assert.equal(video.loadCount, 1);
+  assert.equal(video.playing, false);
+  stage.rect = { top: 500, bottom: 1100, left: 0, right: 500 };
+  window.fire("scroll");
+  assert.equal(video.playing, true);
+  stage.rect = { top: -700, bottom: -100, left: 0, right: 500 };
+  window.fire("resize");
   assert.equal(video.playing, false);
 });

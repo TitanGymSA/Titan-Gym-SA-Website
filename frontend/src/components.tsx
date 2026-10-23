@@ -28,7 +28,10 @@ export function ButtonLink({ children, href, variant = "solid", external = false
 
 export function Header({ pathname }: { pathname: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const membershipHref = pathname === "/" ? "#membership" : "./index.html#membership";
+  const isStudentTraining = pathname === "/texas-sports-academy";
+  const signupHref = isStudentTraining ? site.phoneHref : pathname === "/" ? "#membership" : "./index.html#membership";
+  const signupLabel = isStudentTraining ? "Call to sign up" : "Join now";
+  const signupDirection = isStudentTraining ? "right" : "down";
 
   return (
     <>
@@ -56,10 +59,10 @@ export function Header({ pathname }: { pathname: string }) {
                 </a>
               );
             })}
-            <a className="site-nav__mobile-cta" href={membershipHref} onClick={() => setMenuOpen(false)}>Join now <ArrowIcon direction="down" /></a>
+            <a className="site-nav__mobile-cta" href={signupHref} onClick={() => setMenuOpen(false)}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
           </nav>
 
-          <a className="site-header__cta" href={membershipHref}>Join now <ArrowIcon direction="down" /></a>
+          <a className="site-header__cta" href={signupHref}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
           <button
             className="menu-toggle"
             type="button"
@@ -96,6 +99,7 @@ export function Footer() {
           <ul className="footer-links">
             <li><a href="./index.html#gallery">Gallery</a></li>
             <li><a href="./index.html#membership">Membership</a></li>
+            <li><a href="./texas-sports-academy.html">Student training</a></li>
             <li><a href="./careers.html">Careers</a></li>
           </ul>
         </nav>

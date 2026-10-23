@@ -60,6 +60,8 @@ Decide which specific elements to preserve or adjust through iterative review of
 
 The preferred direction is calm and straightforward. Explain the gym, its offering, and the next step clearly. Convey warmth through concrete details about the experience. A familiar neighborhood voice and an upbeat coach persona are not the preferred directions.
 
+Titles and headings should not end with a period.
+
 ## Faith messaging
 
 Faith is secondary to the gym's offering, atmosphere, and member goals. Small references can appear where they fit, but faith should not lead the homepage or become a central design theme. The footer's closing line is “As iron sharpens iron, so one person sharpens another.” — Proverbs 27:17, replacing “Strength grows here.”
@@ -222,6 +224,18 @@ Place a visible **PLACEHOLDER — REPLACE BEFORE PUBLISHING** label beside each 
 **Temporarily disabled:** Hide this entire homepage section and stop loading the Google Maps integration or publishing its API key until application restrictions can be saved reliably. The following describes the retained design for a later restoration.
 
 Show three existing Google review excerpts with reviewer names and dates, a five-star graphic, and a prominent 5.0/5 Google rating. The user confirmed that 5.0 is the current rating, superseding the older 4.9 shown in the captured business website. Link the rating and “Read more on Google” button to Titan Gym's Google Maps listing. Use the existing dark surfaces and green accent. Stack review cards on mobile. Those manually maintained values in `siteData.ts` now serve as the static fallback. With `GOOGLE_MAPS_API_KEY` configured during the build, the homepage lazily loads the Google Maps JavaScript Places library and requests live rating, review count, reviews, and the Google Maps listing URL. Use verified Place ID `ChIJrzXJpY9hJaYR6H4EusAGIEs` from `googleReviewsConfig.ts`, with optional `GOOGLE_MAPS_PLACE_ID` override. A live API check on October 20, 2026 UTC returned a 5.0 rating, 82 reviews, and five attributed review results; fetch current values at runtime rather than hardcoding that count. Show the first three attributed reviews returned by Google, preserving their order and ratings, and do not cache review content. Keep the fallback if the SDK or request fails; show a dismissible error toast above dialogs. Include Google Maps/provider attribution and public privacy/terms pages. Configure website/API restrictions, Maps JavaScript API, Places API (New), and billing in Google Cloud. Local builds read ignored `frontend/.env.local`; GitHub builds read Actions secrets and variables and publish the browser key in generated HTML.
+
+## Texas Sports Academy student training
+
+Use the hero headline “Big futures, strong foundations” as typography art. Rotate “Big” 90 degrees counterclockwise beside “Futures,” matching its visible height. Put italic “Strong” on the next line across the full block width, then “Foundations” across the same width with less height. Fit text using proportional font sizes and visible glyph bounds; keep the complete phrase accessible to screen readers.
+
+Use the full-gym `images/hero.jpg` photo as the temporary full hero background until a replacement is selected. Reuse the homepage's image-cover treatment and dark fade behind the left-aligned headline, copy, and buttons. Remove the separate right-hand image block and its caption. Omit the Academy/Titan eyebrow above the headline. Describe the offer as “100% school-paid training”; this refers to Titan's included training services, not a guarantee of school tuition funding. Present nutrition support as included. Link visible mentions of “Texas Sports Academy Online” to `https://online.sportsacademy.school/` with clear link styling. Place larger downward arrows immediately to the left of the on-page navigation labels.
+
+Student training signup must happen by phone or in person at Titan Gym. Use explicit call and visit actions on the Academy page, including its header CTA. Email remains available for general questions; do not route student training signup to online membership checkout. The Academy handles school enrollment separately.
+
+Coached training is available for ages 8 and up. The school pays $200 per month for one coached session per week or $400 per month for two sessions per week. Both options include open gym and nutrition support. Parents pay nothing for included services and only pay if they request extra sessions.
+
+In both training cards, show “$0 parent cost” as the primary price, with a large $0. Place the $200 or $400 per month school-paid amount beneath it in smaller, secondary text so parents do not mistake it for their bill.
 
 ## Hosting
 

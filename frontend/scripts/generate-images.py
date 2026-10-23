@@ -15,6 +15,7 @@ BRAND_WIDTHS = {
     "Logo_Dark_V2_w_Text.png": (96, 192, 288),
     "logo-horizontal.png": (300, 600, 900),
     "logo-mark.png": (32, 64, 128),
+    "texas-sports-academy-logo.png": (240, 480, 720),
 }
 
 
@@ -51,6 +52,7 @@ def main():
             if image.mode not in {"RGB", "RGBA"}:
                 image = image.convert("RGBA" if image.has_transparency_data else "RGB")
             widths = BRAND_WIDTHS.get(relative.as_posix(), WIDTHS)
+            is_logo = relative.as_posix() in BRAND_WIDTHS
             candidates = sorted({min(width, image.width) for width in widths})
             variants = []
             for width in candidates:
@@ -58,15 +60,20 @@ def main():
                 resized = image.resize((width, height), Image.Resampling.LANCZOS)
                 variants.append(encode(
                     resized, destination / f"{stem}-{width}.webp",
-                    icc_profile=profile, lossless=relative.as_posix() in BRAND_WIDTHS,
+                    icc_profile=profile, lossless=is_logo,
                 ))
             side = min(192, image.width, image.height)
-            thumbnail = ImageOps.fit(image, (side, side), Image.Resampling.LANCZOS)
+            # Logos must keep all lettering; only gallery photos use square crops.
+            thumbnail = (
+                ImageOps.contain(image, (side, side), Image.Resampling.LANCZOS)
+                if is_logo else ImageOps.fit(image, (side, side), Image.Resampling.LANCZOS)
+            )
             manifest["./images/" + relative.as_posix()] = {
                 "width": image.width, "height": image.height,
                 "variants": variants,
                 "thumbnail": encode(
                     thumbnail, destination / f"{stem}-thumb.webp", icc_profile=profile,
+                    lossless=is_logo,
                 ),
             }
     # One asset per line keeps this generated lookup easy to review.

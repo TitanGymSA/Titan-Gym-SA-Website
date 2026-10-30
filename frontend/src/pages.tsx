@@ -9,7 +9,7 @@ import { MembershipDetails } from "./MembershipDetails";
 import { PhotoGallery } from "./PhotoGallery";
 import { PhoneNumber } from "./PhoneNumber";
 import { imageVariant, ResponsiveImage } from "./ResponsiveImage";
-import { bodybuildingMedia, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, roles, site } from "./siteData";
+import { bodybuildingMedia, hours, nutritionCoachingMedia, openGymMedia, personalTrainingMedia, plans, roles, site } from "./siteData";
 
 const gymHighlights = ["Family owned", "Open gym", "Personal training", "Alamo Ranch, TX", "All fitness levels"];
 const showShakeBar = false;
@@ -61,6 +61,20 @@ export function HomePage() {
             <ButtonLink href="#gallery" variant="outline">Explore the gym</ButtonLink>
           </div>
         </div>
+        <aside className="home-hero__contact" aria-label="Titan Gym hours and contact information">
+          <p className="eyebrow">Plan your visit</p>
+          <h2>Hours &amp; location</h2>
+          <dl className="home-hero__hours">
+            {hours.map((period) => <div key={period.day}><dt>{period.day === "Monday – Friday" ? "Mon – Fri" : period.day}</dt><dd>{period.time}</dd></div>)}
+          </dl>
+          <address>
+            <a href={site.mapsUrl} target="_blank" rel="noreferrer">11720 Alamo Ranch Pkwy, Ste 240<br />San Antonio, TX 78253</a>
+          </address>
+          <div className="home-hero__contact-links">
+            <a href={site.phoneHref}>{site.phone}</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+        </aside>
       </section>
 
       <GymHighlights />

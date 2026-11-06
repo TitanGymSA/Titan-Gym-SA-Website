@@ -7,6 +7,11 @@ import { ResponsiveImage, responsiveImageProps } from "./ResponsiveImage";
 export function PhotoGallery() {
   useEffect(() => {
     window.dispatchEvent(new Event("titan-gallery-ready"));
+    if (window.location.hash === "#gallery") {
+      window.requestAnimationFrame(() => {
+        document.getElementById("gallery")?.scrollIntoView({ block: "start" });
+      });
+    }
   }, []);
 
   return (

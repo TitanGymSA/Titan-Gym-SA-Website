@@ -132,6 +132,59 @@ export function HomePage() {
   );
 }
 
+export function MembershipPage() {
+  return (
+    <div className="membership-page">
+      <PageHero eyebrow="Membership Options" title="Choose how you train" description="Whether you’re building a long-term routine or visiting for a few sessions, there’s an option for you." image="./images/hero.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch">
+        <ButtonLink href="#membership-options">Compare options</ButtonLink>
+      </PageHero>
+      <section className="section section--light" id="membership-options" tabIndex={-1} aria-labelledby="membership-options-title">
+        <div className="container">
+          <SectionHeading id="membership-options-title" eyebrow="Membership options" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Find your fit" description="Annual and monthly memberships are available online. Day and week passes are available at the front desk." />
+          <div className="plan-grid">
+            {plans.map((plan) => (
+              <article className={`plan-card ${plan.featured ? "plan-card--featured" : ""}`} key={plan.name}>
+                <p className="plan-card__label">{plan.featured ? "Best value" : plan.name.includes("pass") ? "Short-term access" : "Flexible training"}</p>
+                <h3>{plan.name}</h3>
+                <MembershipPrice plan={plan} />
+                <MembershipDetails plan={plan} />
+                {plan.name.includes("pass")
+                  ? <ButtonLink href={site.mapsUrl} external variant="outline">Visit the front desk</ButtonLink>
+                  : <ButtonLink href={site.signupUrl} external>Join online</ButtonLink>}
+              </article>
+            ))}
+          </div>
+          <p className="fine-print">Visit us for current specials or contact us with questions about choosing a plan.</p>
+        </div>
+      </section>
+      <section className="section section--dark personal-training-options" aria-labelledby="personal-training-title">
+        <div className="container">
+          <SectionHeading id="personal-training-title" eyebrow="Personal training" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a coach" description="Choose the session length that works for you. Titan Gym offers personal training in 30-minute and 60-minute sessions." />
+          <div className="personal-training-options__grid">
+            <article>
+              <p className="eyebrow">Focused session</p>
+              <h3>30 minutes</h3>
+              <p>A shorter, focused session with a personal trainer.</p>
+            </article>
+            <article>
+              <p className="eyebrow">Extended session</p>
+              <h3>60 minutes</h3>
+              <p>More time to work with a personal trainer during your session.</p>
+            </article>
+          </div>
+          <div className="button-row personal-training-options__cta">
+            <ButtonLink href="./join-now.html" variant="outline">Ask about personal training</ButtonLink>
+          </div>
+        </div>
+      </section>
+      <Callout eyebrow="Come see us" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Your next workout starts here." text="Stop by Titan Gym in Alamo Ranch to see the space and ask our team about membership options.">
+        <ButtonLink href={site.mapsUrl} external>Get directions</ButtonLink>
+        <ButtonLink href={site.phoneHref} variant="outline"><span className="phone-number"><PhoneIcon />Call us</span></ButtonLink>
+      </Callout>
+    </div>
+  );
+}
+
 export function JoinPage() {
   return (
     <>

@@ -146,21 +146,21 @@ export function PageHero({ eyebrow, title, description, image, imageAlt, childre
   );
 }
 
-export function SectionHeading({ id, eyebrow, title, description }: { id?: string; eyebrow: string; title: string; description?: string }) {
+export function SectionHeading({ id, eyebrow, title, description, eyebrowClassName, className }: { id?: string; eyebrow: string; title: string; description?: string; eyebrowClassName?: string; className?: string }) {
   return (
-    <div className="section-heading">
-      <p className="eyebrow">{eyebrow}</p>
+    <div className={`section-heading ${className ?? ""}`}>
+      <p className={`eyebrow ${eyebrowClassName ?? ""}`}>{eyebrow}</p>
       <h2 id={id}>{title}</h2>
       {description ? <p>{description}</p> : null}
     </div>
   );
 }
 
-export function Callout({ eyebrow, title, text, children }: { eyebrow: string; title: string; text: string | readonly string[]; children?: React.ReactNode }) {
+export function Callout({ eyebrow, title, text, children, eyebrowClassName, className }: { eyebrow: string; title: string; text: string | readonly string[]; children?: React.ReactNode; eyebrowClassName?: string; className?: string }) {
   return (
-    <section className="callout">
+    <section className={`callout ${className ?? ""}`}>
       <div className="container callout__inner">
-        <div className="callout__copy"><p className="eyebrow">{eyebrow}</p><h2>{title}</h2>{(typeof text === "string" ? [text] : text).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+        <div className="callout__copy"><p className={`eyebrow ${eyebrowClassName ?? ""}`}>{eyebrow}</p><h2>{title}</h2>{(typeof text === "string" ? [text] : text).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
         <div className="button-row">
           {children ?? <>
             <ButtonLink href="./index.html#membership">Join Titan Gym</ButtonLink>

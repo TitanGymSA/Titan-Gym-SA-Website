@@ -140,7 +140,7 @@ export function MembershipPage() {
       </PageHero>
       <section className="section section--light" id="membership-options" tabIndex={-1} aria-labelledby="membership-options-title">
         <div className="container">
-          <SectionHeading id="membership-options-title" eyebrow="Membership options" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Find your fit" description="Annual and monthly memberships are available online. Day and week passes are available at the front desk." />
+          <SectionHeading id="membership-options-title" eyebrow="Membership options" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Find your fit" />
           <div className="plan-grid">
             {plans.map((plan) => (
               <article className={`plan-card ${plan.featured ? "plan-card--featured" : ""}`} key={plan.name}>

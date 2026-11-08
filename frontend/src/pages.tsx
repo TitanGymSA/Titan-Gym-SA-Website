@@ -82,14 +82,14 @@ export function HomePage() {
       <section className="section section--light home-intro" id="about">
         <div className="home-intro__media" aria-hidden="true"><ResponsiveImage src="./images/community.jpg" alt="" sizes="(max-width: 760px) 100vw, 58vw" loading="lazy" /></div>
         <div className="container intro-grid intro-grid--home">
-          <div><p className="eyebrow">Welcome to Titan Gym</p><h2>Family owned<br />In Alamo Ranch</h2></div>
+          <div className="home-intro__heading"><p className="eyebrow membership-options-eyebrow">Welcome to Titan Gym</p><h2>Family owned<br />In Alamo Ranch</h2></div>
           <div><p className="lead">A family tradition of health &amp; wellness</p><p>We believe taking care of yourself should fit into everyday life. We built Titan Gym as a place to do that with familiar faces and room to work towards your goals.</p></div>
         </div>
       </section>
 
       <section className="section section--dark home-offerings" aria-labelledby="offerings-title">
         <div className="container">
-          <SectionHeading id="offerings-title" eyebrow="At Titan Gym" title="Your Gym, Your Way" />
+          <SectionHeading id="offerings-title" eyebrow="At Titan Gym" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Your Gym, Your Way" />
           <div className="feature-grid">
             <InlineMediaGallery title="Open gym" slides={openGymMedia} />
             <InlineMediaGallery title="Personal training" slides={personalTrainingMedia} />
@@ -112,18 +112,18 @@ export function HomePage() {
 
       <section className="academy-home-link section--dark" aria-labelledby="academy-home-title">
         <div className="container academy-home-link__inner">
-          <div><p className="eyebrow">Texas Sports Academy</p><h2 id="academy-home-title">Their next chapter starts here.</h2><p>Explore student training at Titan and a guide to getting started for parents.</p></div>
-          <ButtonLink href="./texas-sports-academy.html" variant="outline">Explore student training</ButtonLink>
+          <div className="academy-home-link__heading membership-options-heading"><p className="eyebrow membership-options-eyebrow">Texas Sports Academy</p><h2 id="academy-home-title">Their next chapter starts here</h2><p>Explore student training at Titan and a guide to getting started for parents.</p></div>
+          <ButtonLink href="./texas-sports-academy.html" variant="solid" className="academy-home-link__cta">Explore student training</ButtonLink>
         </div>
       </section>
 
       <PhotoGallery />
 
       <section className="section section--light" id="membership" tabIndex={-1} aria-labelledby="membership-title">
-        <div className="container"><SectionHeading id="membership-title" eyebrow="Membership" title="Invest in yourself" /><MembershipPreview /><h2 className="membership-specials">Visit for current specials!</h2></div>
+        <div className="container"><SectionHeading id="membership-title" eyebrow="Membership" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Invest in yourself" /><MembershipPreview /><h2 className="membership-specials">Visit for current specials!</h2></div>
       </section>
 
-      <Callout eyebrow="Visit Titan Gym" title="Still deciding?" text={["Stop by and check out the gym for yourself. Day and week passes can be purchased at the front desk, in person only.", "Give us a call with any questions before you visit. We’re happy to help."]}>
+      <Callout eyebrow="Visit Titan Gym" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Still deciding?" text={["Stop by and check out the gym for yourself. Day and week passes can be purchased at the front desk, in person only.", "Give us a call with any questions before you visit. We’re happy to help."]}>
         <ButtonLink href={site.mapsUrl} external>Get directions</ButtonLink>
         <ButtonLink href={site.phoneHref} variant="outline"><span className="phone-number"><PhoneIcon />Call us</span></ButtonLink>
         <ButtonLink href="#membership" variant="outline" className="callout__signup">Sign up</ButtonLink>
@@ -135,7 +135,7 @@ export function HomePage() {
 export function MembershipPage() {
   return (
     <div className="membership-page">
-      <PageHero eyebrow="Membership Options" title="Choose how you train" description="Whether you’re building a long-term routine or visiting for a few sessions, there’s an option for you." image="./images/hero.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch">
+      <PageHero eyebrow="Membership Options" eyebrowClassName="membership-options-eyebrow" title="Choose how you train" description="Whether you’re building a long-term routine or visiting for a few sessions, there’s an option for you." image="./images/hero.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch">
         <ButtonLink href="#membership-options">Compare options</ButtonLink>
       </PageHero>
       <section className="section section--light" id="membership-options" tabIndex={-1} aria-labelledby="membership-options-title">
@@ -157,27 +157,51 @@ export function MembershipPage() {
           <p className="fine-print">Visit us for current specials or contact us with questions about choosing a plan.</p>
         </div>
       </section>
-      <section className="section section--dark personal-training-options" aria-labelledby="personal-training-title">
+      <section className="section section--dark coaching-services" aria-label="Personal training, nutrition coaching, and bodybuilding coaching">
         <div className="container">
-          <SectionHeading id="personal-training-title" eyebrow="Personal training" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a coach" description="Choose the session length that works for you. Titan Gym offers personal training in 30-minute and 60-minute sessions." />
-          <div className="personal-training-options__grid">
-            <article>
-              <p className="eyebrow">Focused session</p>
-              <h3>30 minutes</h3>
-              <p>A shorter, focused session with a personal trainer.</p>
-            </article>
-            <article>
-              <p className="eyebrow">Extended session</p>
-              <h3>60 minutes</h3>
-              <p>More time to work with a personal trainer during your session.</p>
-            </article>
+          <div className="coaching-services__grid">
+            <div className="coaching-service">
+              <SectionHeading id="personal-training-title" eyebrow="Personal training" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a coach" description="Choose a 30-minute or 60-minute session to work with a personal trainer." />
+              <div className="coaching-service__tiles">
+                <article>
+                  <p className="eyebrow">Focused session</p>
+                  <h3>30 minutes</h3>
+                  <p>A shorter, focused session with a personal trainer.</p>
+                </article>
+                <article>
+                  <p className="eyebrow">Extended session</p>
+                  <h3>60 minutes</h3>
+                  <p>More time to work with a personal trainer during your session.</p>
+                </article>
+              </div>
+            </div>
+            <div className="coaching-service">
+              <SectionHeading id="nutrition-coaching-title" eyebrow="Nutrition coaching" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Fuel your progress" description="Get support with nutrition habits that fit your training and daily routine." />
+              <div className="coaching-service__tiles">
+                <article>
+                  <p className="eyebrow">Nutrition support</p>
+                  <h3>Build daily habits</h3>
+                  <p>Ask our team how nutrition coaching can support your goals.</p>
+                </article>
+              </div>
+            </div>
+            <div className="coaching-service">
+              <SectionHeading id="bodybuilding-coaching-title" eyebrow="Bodybuilding coaching" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a plan" description="Talk with our team about training support for your bodybuilding goals." />
+              <div className="coaching-service__tiles">
+                <article>
+                  <p className="eyebrow">Goal-focused support</p>
+                  <h3>Build toward your goals</h3>
+                  <p>Ask about coaching for your training or competition goals.</p>
+                </article>
+              </div>
+            </div>
           </div>
-          <div className="button-row personal-training-options__cta">
-            <ButtonLink href="./join-now.html" variant="outline">Ask about personal training</ButtonLink>
+          <div className="button-row coaching-services__cta">
+            <ButtonLink href="./join-now.html" variant="outline">Ask about coaching</ButtonLink>
           </div>
         </div>
       </section>
-      <Callout eyebrow="Come see us" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Your next workout starts here." text="Stop by Titan Gym in Alamo Ranch to see the space and ask our team about membership options.">
+      <Callout eyebrow="Come see us" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title={<>Your next workout<br />Starts here</>} text="Stop by Titan Gym in Alamo Ranch to see the space and ask our team about membership options.">
         <ButtonLink href={site.mapsUrl} external>Get directions</ButtonLink>
         <ButtonLink href={site.phoneHref} variant="outline"><span className="phone-number"><PhoneIcon />Call us</span></ButtonLink>
       </Callout>

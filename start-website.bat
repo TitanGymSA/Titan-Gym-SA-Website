@@ -27,10 +27,16 @@ if not exist "node_modules\vite\bin\vite.js" (
 
 echo.
 echo Starting Titan Gym website...
-echo Open this address: http://localhost:5173/
+echo Desktop: http://localhost:5173/
+for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "$config = Get-NetIPConfiguration | Where-Object { $_.NetAdapter.Status -eq 'Up' -and $_.IPv4DefaultGateway } | Select-Object -First 1; $config.IPv4Address.IPAddress | Select-Object -First 1"`) do set "LAN_IP=%%I"
+if defined LAN_IP (
+  echo Phone or tablet on the same Wi-Fi: http://%LAN_IP%:5173/
+) else (
+  echo Find your computer's IPv4 address with ipconfig to open this on your phone.
+)
 echo Keep this window open while you use the website.
 echo Press Ctrl+C here to stop the website.
 echo.
-call npm run dev -- --host 127.0.0.1 --strictPort --open
+call npm run dev -- --host 0.0.0.0 --strictPort --open
 
 pause

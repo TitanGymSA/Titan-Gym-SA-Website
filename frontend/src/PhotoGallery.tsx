@@ -17,7 +17,7 @@ export function PhotoGallery() {
   return (
     <section className="section section--dark home-gallery" id="gallery" tabIndex={-1} aria-label="Inside Titan Gym photo gallery">
       <div className="container">
-        <SectionHeading eyebrow="Inside Titan Gym" title="Take a look around" />
+        <SectionHeading eyebrow="Inside Titan Gym" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Take a look around" />
         <div className="gallery-mosaic">
           {gallery.map((photo, index) => {
             const viewerImage = responsiveImageProps(photo.src, "calc(100vw - 60px)", 1920);

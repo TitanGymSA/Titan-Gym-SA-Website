@@ -125,6 +125,7 @@ export function Footer() {
 
 type PageHeroProps = {
   eyebrow: string;
+  eyebrowClassName?: string;
   title: string;
   description: string;
   image: string;
@@ -132,12 +133,12 @@ type PageHeroProps = {
   children?: React.ReactNode;
 };
 
-export function PageHero({ eyebrow, title, description, image, imageAlt, children }: PageHeroProps) {
+export function PageHero({ eyebrow, eyebrowClassName, title, description, image, imageAlt, children }: PageHeroProps) {
   return (
     <section className="page-hero">
       <div className="page-hero__media"><ResponsiveImage src={image} alt={imageAlt} sizes="100vw" preferredWidth={1920} /></div>
       <div className="container page-hero__content">
-        <p className="eyebrow">{eyebrow}</p>
+        <p className={`eyebrow ${eyebrowClassName ?? ""}`}>{eyebrow}</p>
         <h1>{title}</h1>
         <p className="page-hero__description">{description}</p>
         {children ? <div className="button-row">{children}</div> : null}
@@ -156,7 +157,7 @@ export function SectionHeading({ id, eyebrow, title, description, eyebrowClassNa
   );
 }
 
-export function Callout({ eyebrow, title, text, children, eyebrowClassName, className }: { eyebrow: string; title: string; text: string | readonly string[]; children?: React.ReactNode; eyebrowClassName?: string; className?: string }) {
+export function Callout({ eyebrow, title, text, children, eyebrowClassName, className }: { eyebrow: string; title: React.ReactNode; text: string | readonly string[]; children?: React.ReactNode; eyebrowClassName?: string; className?: string }) {
   return (
     <section className={`callout ${className ?? ""}`}>
       <div className="container callout__inner">

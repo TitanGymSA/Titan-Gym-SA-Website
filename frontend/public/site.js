@@ -41,6 +41,17 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+// The production site is static HTML, so handle expanded coaching cards here
+// instead of relying on React event handlers that are not hydrated in production.
+document.addEventListener("click", (event) => {
+  const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+  if (!target) return;
+  const offer = target.closest(".coaching-offer");
+  if (!offer?.open || target.closest("summary")) return;
+  if (target.closest("a, button, input, select, textarea, [contenteditable='true']")) return;
+  offer.open = false;
+});
+
 // Request nearby lazy images early while retaining responsive candidate selection.
 if (typeof IntersectionObserver !== "undefined") {
   const imageObserver = new IntersectionObserver((entries) => {

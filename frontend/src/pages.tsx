@@ -50,14 +50,7 @@ function MembershipPreview() {
 
 function CoachingOffer({ id, label, title, summary, details }: { id: string; label: string; title: string; summary?: string; details: string[] }) {
   return (
-    <details
-      className="coaching-offer"
-      onClick={(event) => {
-        if (event.currentTarget.open && event.target instanceof Element && !event.target.closest("summary")) {
-          event.currentTarget.open = false;
-        }
-      }}
-    >
+    <details className="coaching-offer">
       <summary id={`${id}-toggle`} aria-controls={`${id}-details`}>
         <span className="eyebrow coaching-offer__label">{label}</span>
         <span className="coaching-offer__title" role="heading" aria-level={3}>{title}</span>

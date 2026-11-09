@@ -87,7 +87,7 @@ export function Footer() {
           <a className="brand brand--footer" href="./index.html" aria-label="Titan Gym home">
             <ResponsiveImage src="./images/logo-horizontal.png" alt="" sizes="(max-width: 328px) calc(100vw - 28px), 300px" preferredWidth={600} />
           </a>
-          <p>A family gym, right here in Alamo Ranch.</p>
+          <p>A family gym, in Alamo Ranch.</p>
           <div className="footer-socials" id="socials">
             <a href={site.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Facebook" title="Facebook"><FacebookIcon /></a>
             <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Titan Gym on Instagram" title="Instagram"><InstagramIcon /></a>

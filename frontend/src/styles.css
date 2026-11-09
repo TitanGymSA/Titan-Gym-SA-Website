@@ -220,6 +220,8 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 .plan-card--featured { border: 2px solid var(--color-accent); }
 .plan-card__label { color: var(--color-accent-ink); font-size: .72rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
 .plan-card h3 { margin-top: 28px; min-height: 2em; }
+.membership-page .plan-card__label { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1rem, 1.4vw, 1.3rem); font-weight: 700; letter-spacing: .01em; line-height: .98; }
+.membership-page .plan-card h3 { margin-top: 8px; min-height: 2em; font-size: clamp(1.6rem, 2.1vw, 2rem); }
 .plan-card__price { margin-top: 16px; font-size: clamp(1.8rem, 2.4vw, 2.8rem); font-weight: 900; line-height: 1; }
 .plan-card__price span { margin-left: 5px; font-size: .75rem; font-weight: 600; line-height: 1.2; }
 .plan-card__description { margin: 22px 0; font-size: .94rem; }
@@ -230,15 +232,33 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 .plan-card__offer { margin-top: 12px; color: var(--color-accent-ink); font-size: .94rem; font-weight: 800; }
 .membership-specials { max-width: 1000px; margin: 56px auto 0; text-align: center; }
 .plan-card .button-link { width: 100%; margin-top: auto; }
-.coaching-services__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; }
-.coaching-service { min-width: 0; }
-.coaching-service .section-heading { max-width: none; margin-bottom: 22px; }
-.coaching-service .membership-options-eyebrow { font-size: clamp(1.6rem, 2.7vw, 2.4rem); }
-.coaching-service__tiles { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-.coaching-service__tiles article { min-width: 0; padding: 24px; border: 1px solid var(--color-dark-border); background: var(--color-dark-surface); }
-.coaching-service__tiles .eyebrow { font-size: calc(.72rem + 6pt); letter-spacing: 0; }
-.coaching-service__tiles h3 { margin-top: 10px; color: var(--color-on-dark); font-size: clamp(1.7rem, 2.5vw, 2.4rem); }
-.coaching-service__tiles p:last-child { margin-top: 7px; color: var(--color-border); }
+.coaching-services__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.coaching-service { display: grid; grid-template-columns: minmax(200px, .72fr) minmax(0, 1.8fr); gap: 20px; align-items: center; min-width: 0; padding: clamp(16px, 2vw, 22px); border: 1px solid var(--color-dark-border); background: var(--color-dark); }
+.coaching-service__intro { min-width: 0; }
+.coaching-service__intro h2 { color: var(--color-accent); font-family: inherit; font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 900; letter-spacing: .025em; line-height: 1.2; text-transform: uppercase; }
+.coaching-service__intro p { margin-top: 8px; color: var(--color-border); font-size: .94rem; }
+.coaching-service__tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: center; align-items: start; gap: 12px; min-width: 0; }
+.coaching-service--unframed { padding: 0; border: 0; background: transparent; }
+.coaching-service--labeled-tile { padding: 0; border: 0; background: transparent; }
+.coaching-service--labeled-tile .coaching-service__tiles { grid-template-columns: minmax(0, 1fr); max-width: calc(50% - 6px); }
+.coaching-offer { --coaching-offer-padding: 24px; min-width: 0; border: 1px solid var(--color-dark-border); background: var(--color-dark-surface); transition: border-color .2s ease, box-shadow .2s ease; }
+.coaching-offer:hover, .coaching-offer[open] { border-color: var(--color-accent); box-shadow: 0 8px 24px rgb(0 0 0 / 16%); }
+.coaching-offer summary { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: var(--coaching-offer-padding); cursor: pointer; list-style: none; }
+.coaching-offer summary::-webkit-details-marker { display: none; }
+.coaching-offer summary:focus-visible { outline-offset: -4px; }
+.coaching-offer__label { padding-right: 34px; font-size: calc(.72rem + 6pt); letter-spacing: 0; }
+.coaching-offer__title { display: block; margin-top: 10px; color: var(--color-on-dark); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.7rem, 2.5vw, 2.4rem); font-weight: 700; letter-spacing: .01em; line-height: .98; text-transform: uppercase; }
+.coaching-offer__summary { display: block; margin-top: 7px; color: var(--color-border); }
+.coaching-offer__action { display: flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--color-accent); font-size: .78rem; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+.coaching-offer__close-label { display: none; }
+.coaching-offer[open] .coaching-offer__open-label { display: none; }
+.coaching-offer[open] .coaching-offer__close-label { display: inline; }
+.coaching-offer__indicator::before { content: "+"; display: inline-block; font-size: 1.25rem; line-height: 1; }
+.coaching-offer[open] .coaching-offer__indicator::before { content: "−"; }
+.coaching-offer__details { margin-inline: var(--coaching-offer-padding); padding-block: 16px var(--coaching-offer-padding); border-top: 1px solid var(--color-dark-border); color: var(--color-border); }
+.coaching-offer__list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.coaching-offer__list li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: start; }
+.coaching-offer__list img { width: 24px; height: auto; margin-top: 4px; }
 .coaching-services__cta { margin-top: 24px; }
 .coaching-services .button-link--outline { color: var(--color-on-dark); }
 .fine-print { margin-top: 22px; color: var(--color-muted-ink); font-size: .82rem; }
@@ -437,20 +457,15 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 }
 
 @media (min-width: 640px) {
-  .coaching-services__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 18px; }
-  .coaching-service .section-heading { min-height: clamp(240px, 26vw, 280px); }
-  .coaching-service__tiles article { padding: clamp(24px, 3vw, 36px); }
-}
-
-@media (min-width: 1000px) {
-  .coaching-services__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-  .coaching-service .section-heading { min-height: clamp(240px, 20vw, 300px); }
+  .coaching-offer { --coaching-offer-padding: clamp(24px, 3vw, 36px); }
 }
 
 @media (max-width: 560px) {
   .academy-hero .button-row { flex-direction: column; align-items: stretch; }
   .academy-hero .button-link { width: 100%; }
   .academy-checklist { padding-inline: 4px; }
+  .coaching-service__tiles { grid-template-columns: minmax(0, 1fr); }
+  .coaching-service--labeled-tile .coaching-service__tiles { max-width: none; }
 }
 
 @media (max-width: 1100px) {
@@ -473,6 +488,7 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
   .site-nav--open { display: grid; gap: 0; }
   .site-nav a { padding-inline: 12px; }
   .site-nav__mobile-cta { display: inline-flex !important; gap: 8px; margin-top: 12px; padding-inline: 12px; background: var(--color-action); color: var(--color-on-action); }
+  .coaching-service { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .home-hero { min-height: 640px; }
   .home-hero__image::after, .page-hero__media::after { background: linear-gradient(0deg, var(--color-dark) 0%, var(--color-dark) 28%, transparent 100%); }
   .home-hero__content { padding-block: 120px 90px; }

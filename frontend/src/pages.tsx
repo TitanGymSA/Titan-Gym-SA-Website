@@ -48,6 +48,35 @@ function MembershipPreview() {
   );
 }
 
+function CoachingOffer({ id, label, title, summary, details }: { id: string; label: string; title: string; summary?: string; details: string[] }) {
+  return (
+    <details
+      className="coaching-offer"
+      onClick={(event) => {
+        if (event.currentTarget.open && event.target instanceof Element && !event.target.closest("summary")) {
+          event.currentTarget.open = false;
+        }
+      }}
+    >
+      <summary id={`${id}-toggle`} aria-controls={`${id}-details`}>
+        <span className="eyebrow coaching-offer__label">{label}</span>
+        <span className="coaching-offer__title" role="heading" aria-level={3}>{title}</span>
+        {summary ? <span className="coaching-offer__summary">{summary}</span> : null}
+        <span className="coaching-offer__action">
+          <span className="coaching-offer__open-label">Learn more</span>
+          <span className="coaching-offer__close-label">Show less</span>
+          <span className="coaching-offer__indicator" aria-hidden="true" />
+        </span>
+      </summary>
+      <div className="coaching-offer__details" id={`${id}-details`} aria-labelledby={`${id}-toggle`}>
+        <ul className="coaching-offer__list">
+          {details.map((detail) => <li key={detail}><ResponsiveImage src="./images/logo-mark.png" alt="" aria-hidden="true" sizes="24px" preferredWidth={32} /><span>{detail}</span></li>)}
+        </ul>
+      </div>
+    </details>
+  );
+}
+
 export function HomePage() {
   return (
     <>
@@ -160,41 +189,32 @@ export function MembershipPage() {
       <section className="section section--dark coaching-services" aria-label="Personal training, nutrition coaching, and bodybuilding coaching">
         <div className="container">
           <div className="coaching-services__grid">
-            <div className="coaching-service">
-              <SectionHeading id="personal-training-title" eyebrow="Personal training" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a coach" description="Choose a 30-minute or 60-minute session to work with a personal trainer." />
-              <div className="coaching-service__tiles">
-                <article>
-                  <p className="eyebrow">Focused session</p>
-                  <h3>30 minutes</h3>
-                  <p>A shorter, focused session with a personal trainer.</p>
-                </article>
-                <article>
-                  <p className="eyebrow">Extended session</p>
-                  <h3>60 minutes</h3>
-                  <p>More time to work with a personal trainer during your session.</p>
-                </article>
+            <section className="coaching-service coaching-service--personal-training coaching-service--unframed" aria-labelledby="personal-training-title">
+              <div className="coaching-service__intro">
+                <h2 id="personal-training-title">Personal training</h2>
+                <p>Choose a 30-minute or 60-minute session to work with a personal trainer</p>
               </div>
-            </div>
-            <div className="coaching-service">
-              <SectionHeading id="nutrition-coaching-title" eyebrow="Nutrition coaching" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Fuel your progress" description="Get support with nutrition habits that fit your training and daily routine." />
               <div className="coaching-service__tiles">
-                <article>
-                  <p className="eyebrow">Nutrition support</p>
-                  <h3>Build daily habits</h3>
-                  <p>Ask our team how nutrition coaching can support your goals.</p>
-                </article>
+                <CoachingOffer id="focused-session" label="Focused session" title="30 minutes" details={["One-on-one training with a personal trainer", "Your program is tailored to your goals, experience, and fitness level", "Choose the number of sessions you want to train each week", "Work with a nutrition coach to align your diet with your goals"]} />
+                <CoachingOffer id="extended-session" label="Extended session" title="60 minutes" details={["One-on-one training with a personal trainer", "Your program is custom built to match your goals, experience, and fitness level", "Choose the number of sessions you want to train each week", "Work with a nutrition coach to align your diet with your goals"]} />
               </div>
-            </div>
-            <div className="coaching-service">
-              <SectionHeading id="bodybuilding-coaching-title" eyebrow="Bodybuilding coaching" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Train with a plan" description="Talk with our team about training support for your bodybuilding goals." />
+            </section>
+            <section className="coaching-service coaching-service--labeled-tile" aria-labelledby="nutrition-coaching-title">
+              <div className="coaching-service__intro">
+                <h2 id="nutrition-coaching-title">Nutrition coaching</h2>
+              </div>
               <div className="coaching-service__tiles">
-                <article>
-                  <p className="eyebrow">Goal-focused support</p>
-                  <h3>Build toward your goals</h3>
-                  <p>Ask about coaching for your training or competition goals.</p>
-                </article>
+                <CoachingOffer id="nutrition-support" label="Nutrition Coaching" title="Build daily habits" summary="Get support with nutrition habits that fit your training and daily routine" details={["Set nutrition goals that support your figure and fitness goals", "Identify daily calorie and macro targets, including protein, carbohydrates, and fats", "Learn basic nutrition tracking and how to track calories and macros", "Find practical ways to meet your daily calorie, protein, carb, and fat targets", "Get meal-planning support and ideas for adjusting the meals you already enjoy", "Make manageable changes to your current diet so it better aligns with your goals, without overhauling your lifestyle", "Build sustainable nutrition habits that fit into your life"]} />
               </div>
-            </div>
+            </section>
+            <section className="coaching-service coaching-service--labeled-tile" aria-labelledby="bodybuilding-coaching-title">
+              <div className="coaching-service__intro">
+                <h2 id="bodybuilding-coaching-title">Bodybuilding coaching</h2>
+              </div>
+              <div className="coaching-service__tiles">
+                <CoachingOffer id="bodybuilding-support" label="Bodybuilding Coaching" title="Build towards your goals" summary="Begin working with one of our bodybuilding coaches toward your competition goals" details={["Work with a bodybuilding coach on your preparation", "Get help with posing practice and presentation", "Get nutrition guidance to support your bodybuilding goals", "Tailor your workout program to the federation and division you are competing in"]} />
+              </div>
+            </section>
           </div>
           <div className="button-row coaching-services__cta">
             <ButtonLink href="./join-now.html" variant="outline">Ask about coaching</ButtonLink>

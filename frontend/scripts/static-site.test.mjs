@@ -66,30 +66,31 @@ test("published HTML does not expose a Google API key or load its SDK", async ()
 test("mobile menu opens, closes, and returns focus on Escape", async () => {
   const attributes = { "aria-expanded": "false", "aria-label": "Open menu" };
   const classes = new Set();
-  const handlers = {};
+  const buttonHandlers = {};
+  const documentHandlers = {};
   let focused = false;
   const button = {
     getAttribute: (name) => attributes[name],
     setAttribute: (name, value) => { attributes[name] = value; },
-    addEventListener: (name, handler) => { handlers[name] = handler; },
+    addEventListener: (name, handler) => { buttonHandlers[name] = handler; },
     focus: () => { focused = true; },
   };
   runInNewContext(await readFile(resolve(output, "site.js"), "utf8"), {
     document: {
       querySelector: () => button,
       getElementById: (id) => id === "primary-navigation" ? ({ classList: { toggle: (name, enabled) => enabled ? classes.add(name) : classes.delete(name) } }) : null,
-      addEventListener: (name, handler) => { handlers[name] = handler; },
+      addEventListener: (name, handler) => { documentHandlers[name] = handler; },
     },
   });
-  handlers.click();
+  buttonHandlers.click({});
   assert.equal(attributes["aria-expanded"], "true");
   assert.equal(attributes["aria-label"], "Close menu");
   assert.ok(classes.has("site-nav--open"));
-  handlers.click();
+  buttonHandlers.click({});
   assert.equal(attributes["aria-expanded"], "false");
   assert.ok(!classes.has("site-nav--open"));
-  handlers.click();
-  handlers.keydown({ key: "Escape" });
+  buttonHandlers.click({});
+  documentHandlers.keydown({ key: "Escape" });
   assert.equal(attributes["aria-expanded"], "false");
   assert.equal(attributes["aria-label"], "Open menu");
   assert.ok(!classes.has("site-nav--open"));

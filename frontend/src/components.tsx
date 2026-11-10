@@ -102,6 +102,7 @@ export function Footer() {
             <li><a href="./index.html#gallery">Gallery</a></li>
             <li><a href="./index.html#membership">Membership</a></li>
             <li><a href="./texas-sports-academy.html">Student training</a></li>
+            <li><a href="./join-now.html">Contact us</a></li>
             <li><a href="./careers.html">Careers</a></li>
           </ul>
         </nav>
@@ -128,16 +129,17 @@ export function Footer() {
 type PageHeroProps = {
   eyebrow: string;
   eyebrowClassName?: string;
-  title: string;
+  title: React.ReactNode;
   description: string;
   image: string;
   imageAlt: string;
   children?: React.ReactNode;
+  className?: string;
 };
 
-export function PageHero({ eyebrow, eyebrowClassName, title, description, image, imageAlt, children }: PageHeroProps) {
+export function PageHero({ eyebrow, eyebrowClassName, title, description, image, imageAlt, children, className = "" }: PageHeroProps) {
   return (
-    <section className="page-hero">
+    <section className={`page-hero ${className}`.trim()}>
       <div className="page-hero__media"><ResponsiveImage src={image} alt={imageAlt} sizes="100vw" preferredWidth={1920} /></div>
       <div className="container page-hero__content">
         <p className={`eyebrow ${eyebrowClassName ?? ""}`}>{eyebrow}</p>

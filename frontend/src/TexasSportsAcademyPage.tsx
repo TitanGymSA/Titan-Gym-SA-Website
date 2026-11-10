@@ -74,7 +74,7 @@ export function TexasSportsAcademyPage() {
 
       <section className="section section--light" id="academy-program" aria-labelledby="academy-program-title">
         <div className="container academy-overview">
-          <SectionHeading id="academy-program-title" eyebrow="The big picture" title="Their education, their training, their next chapter" />
+          <SectionHeading id="academy-program-title" eyebrow="The big picture" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Their education, their training, their next chapter" />
           <div className="academy-overview__copy">
             <p className="lead">Online academics through the Academy. Local training here at Titan.</p>
             <p><AcademyLink /> combines an online academic program with local sports training. Its focused academic model creates room in the day for athletics, personal development, and life outside the screen.</p>
@@ -88,7 +88,7 @@ export function TexasSportsAcademyPage() {
         </div>
         <div className="container academy-options" id="training-options" aria-labelledby="training-options-title">
           <div className="academy-options__heading">
-            <div><p className="eyebrow">Two ways to get started</p><h3 id="training-options-title">Their training covered</h3></div>
+            <div className="membership-options-heading"><p className="eyebrow academy-options__eyebrow">Two ways to get started</p><h3 id="training-options-title">Their training covered</h3></div>
             <p>Coaching for ages 8+.<br />Both options paid by the school.</p>
           </div>
           <div className="plan-grid plan-grid--preview">
@@ -118,7 +118,7 @@ export function TexasSportsAcademyPage() {
             <figcaption>Your local gym. Come take a look.</figcaption>
           </figure>
           <div>
-            <SectionHeading id="student-training-title" eyebrow="Student training at Titan" title="Build a routine that fits them" description="Every student starts somewhere different. Let's talk about their starting point and where they'd like to go." />
+            <SectionHeading id="student-training-title" eyebrow="Student training at Titan" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Build a routine that fits them" description="Every student starts somewhere different. Let's talk about their starting point and where they'd like to go." />
             <ol className="academy-training__topics">
               {trainingTopics.map((topic, index) => (
                 <li key={topic.title}>
@@ -133,7 +133,7 @@ export function TexasSportsAcademyPage() {
 
       <section className="section section--light" id="parent-guide" aria-labelledby="parent-guide-title">
         <div className="container">
-          <SectionHeading id="parent-guide-title" eyebrow="A guide for parents" title="From questions to a plan" description="Start with a conversation. These four steps help you sort out school, training, and coverage before committing." />
+          <SectionHeading id="parent-guide-title" eyebrow="A guide for parents" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="From questions to a plan" description="Start with a conversation. These four steps help you sort out school, training, and coverage before committing." />
           <div className="academy-parent-grid">
             <ol className="academy-parent-steps">
               {parentSteps.map((step, index) => (
@@ -162,7 +162,7 @@ export function TexasSportsAcademyPage() {
 
       <section className="academy-funding section--light" aria-labelledby="academy-funding-title">
         <div className="container academy-funding__inner">
-          <div><p className="eyebrow">Understand the funding</p><h2 id="academy-funding-title">School pays<br />They show up</h2></div>
+          <div className="membership-options-heading"><p className="eyebrow membership-options-eyebrow">Understand the funding</p><h2 id="academy-funding-title">School pays<br />They show up</h2></div>
           <div className="academy-funding__copy">
             <p><strong>The school pays Titan's $200 or $400 monthly program amount.</strong> Your family pays nothing for the included coached sessions, open gym, and nutrition support. Extra sessions are available at a parent-paid cost if you'd like more.</p>
             <p>Talk with the Academy about school enrollment and tuition. Eligible families may be able to use Texas Education Freedom Account (TEFA) funding toward Academy tuition, subject to state approval. Contact Titan to confirm your student's training authorization and arrange their start date.</p>
@@ -177,7 +177,7 @@ export function TexasSportsAcademyPage() {
 
       <section className="section section--light" id="parent-questions" aria-labelledby="parent-questions-title">
         <div className="container academy-questions">
-          <SectionHeading id="parent-questions-title" eyebrow="Before you get started" title="Good questions, clear next steps" description="A few things parents often want to know before arranging student training." />
+          <SectionHeading id="parent-questions-title" eyebrow="Before you get started" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading" title="Good questions, clear next steps" description="A few things parents often want to know before arranging student training." />
           <div className="academy-questions__list">
             {parentQuestions.map(({ question, answer }) => (
               <details key={question}>
@@ -190,7 +190,7 @@ export function TexasSportsAcademyPage() {
       </section>
 
       <div id="student-visit">
-        <Callout eyebrow="Student training signup" title="Ready to sign up?" text={`Call ${site.phone} or visit Titan Gym in person to sign up for student training. We'll help you choose an option and arrange your student's first session.`}>
+        <Callout eyebrow="Student training signup" eyebrowClassName="membership-options-eyebrow" className="membership-options-heading academy-signup-callout" title="Ready to sign up?" text={`Call ${site.phone} or visit Titan Gym in person to sign up for student training. We'll help you choose an option and arrange your student's first session.`}>
           <ButtonLink href={site.phoneHref}><span className="phone-number"><PhoneIcon />Call to sign up</span></ButtonLink>
           <ButtonLink href={site.mapsUrl} external variant="outline">Visit to sign up</ButtonLink>
         </Callout>

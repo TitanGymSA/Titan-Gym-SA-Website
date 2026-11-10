@@ -84,7 +84,7 @@ export function HomePage() {
         <div className="home-hero__image"><ResponsiveImage src="./images/hero.jpg" alt="Wide view of Titan Gym's training floor in Alamo Ranch" sizes="(max-width: 760px) max(100vw, 854px), 100vw" preferredWidth={1920} fetchPriority="high" /></div>
         <div className="container home-hero__content">
           <HomeHeadline />
-          <p>Find your rhythm with a family-owned gym in Alamo Ranch.</p>
+          <p>Find your rhythm with a family-owned gym in Alamo Ranch</p>
           <div className="button-row">
             <ButtonLink href="#membership">Join now</ButtonLink>
             <ButtonLink href="#gallery" variant="outline">Explore the gym</ButtonLink>
@@ -141,7 +141,7 @@ export function HomePage() {
 
       <section className="academy-home-link section--dark" aria-labelledby="academy-home-title">
         <div className="container academy-home-link__inner">
-          <div className="academy-home-link__heading membership-options-heading"><p className="eyebrow membership-options-eyebrow">Texas Sports Academy</p><h2 id="academy-home-title">Their next chapter starts here</h2><p>Explore student training at Titan and a guide to getting started for parents.</p></div>
+          <div className="academy-home-link__heading membership-options-heading"><p className="eyebrow membership-options-eyebrow">Texas Sports Academy</p><h2 id="academy-home-title">Their next chapter starts here</h2><p>Explore student training at Titan and a guide to getting started for parents</p></div>
           <ButtonLink href="./texas-sports-academy.html" variant="solid" className="academy-home-link__cta">Explore student training</ButtonLink>
         </div>
       </section>
@@ -164,7 +164,7 @@ export function HomePage() {
 export function MembershipPage() {
   return (
     <div className="membership-page">
-      <PageHero eyebrow="Membership Options" eyebrowClassName="membership-options-eyebrow" title="Choose how you train" description="Whether you’re building a long-term routine or visiting for a few sessions, there’s an option for you." image="./images/hero.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch">
+      <PageHero eyebrow="Membership" eyebrowClassName="membership-options-eyebrow" title={<><span className="membership-hero__spacer" aria-hidden="true" /><span className="membership-hero__options">Options</span><span className="membership-hero__side-stack"><span className="membership-hero__choose">Choose</span><span className="membership-hero__how-you"><span>How</span><span>You</span></span></span><span className="membership-hero__train">Train</span></>} description="Whether you’re building a long-term routine or visiting for a few sessions, there’s an option for you." image="./images/hero.jpg" imageAlt="Training floor at Titan Gym in Alamo Ranch">
         <ButtonLink href="#membership-options">Compare options</ButtonLink>
       </PageHero>
       <section className="section section--light" id="membership-options" tabIndex={-1} aria-labelledby="membership-options-title">
@@ -232,13 +232,15 @@ export function MembershipPage() {
 export function JoinPage() {
   return (
     <>
-      <PageHero eyebrow="Join Titan Gym" title="Stop by, say hi" description="We're happy to chat! Email, Call, or best of all, stop by to check out our gym in person." image="./images/hero.jpg" imageAlt="Titan Gym's free weight and strength training floor"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
+      <PageHero className="join-page-hero" eyebrow="Join Titan Gym" eyebrowClassName="membership-options-eyebrow" title="Stop by, say hi" description="We're happy to chat! Email, Call, or best of all, stop by to check out our gym in person" image="./images/hero.jpg" imageAlt="Titan Gym's free weight and strength training floor"><ButtonLink href={site.signupUrl} external>Join online</ButtonLink></PageHero>
       <section className="section section--light contact-section" aria-labelledby="contact-title">
         <div className="contact-section__media" aria-hidden="true"><ResponsiveImage src="./images/owners.jpg" alt="" sizes="(max-width: 760px) 100vw, 68vw" loading="lazy" decoding="async" /></div>
         <div className="container join-grid">
           <div>
-            <p className="eyebrow">Get in touch</p>
-            <h2 id="contact-title">Let's talk about your goals.</h2>
+            <div className="join-grid__intro membership-options-heading">
+              <p className="eyebrow membership-options-eyebrow">Get in touch</p>
+              <h2 id="contact-title">Let's talk about your fitness goals</h2>
+            </div>
             <p>Questions about memberships, coaching, or getting started? Reach us here.</p>
             <dl className="contact-methods">
               <div><dt>Call</dt><dd><a href={site.phoneHref}><PhoneNumber /></a></dd></div>

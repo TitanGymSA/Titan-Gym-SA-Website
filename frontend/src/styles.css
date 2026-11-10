@@ -480,7 +480,7 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 @media (max-width: 760px) {
   html { scroll-padding-top: 128px; }
   .utility-bar { font-size: .6rem; letter-spacing: .055em; }
-  .utility-bar__inner { min-height: 0; flex-wrap: wrap; gap: 4px 12px; padding-block: 7px; }
+  .utility-bar__inner { min-height: 0; flex-wrap: wrap; align-items: flex-start; gap: 4px 12px; padding-block: 7px; }
   .utility-bar__inner > span { flex: 1 1 190px; min-width: 0; }
   .utility-bar__inner > a { flex: 0 0 auto; margin-left: auto; }
   .site-header__inner { min-height: 72px; }

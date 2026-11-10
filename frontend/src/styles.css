@@ -26,7 +26,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { min-width: 320px; }
+html { min-width: 320px; scroll-padding-top: 86px; }
 body { margin: 0; background: var(--color-paper); color: var(--color-ink); overflow-wrap: anywhere; }
 button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -62,7 +62,7 @@ address { font-style: normal; }
 .email-address__text { min-width: 0; overflow-wrap: anywhere; }
 .email-address svg { flex: none; }
 .button-link .phone-number, .contact-methods .phone-number { color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; }
-.site-header { position: relative; z-index: 100; background: var(--color-dark); color: var(--color-on-dark); border-bottom: 1px solid var(--color-dark-border); }
+.site-header { position: sticky; top: 0; z-index: 100; background: var(--color-dark); color: var(--color-on-dark); border-bottom: 1px solid var(--color-dark-border); }
 .site-header__inner { display: flex; align-items: center; justify-content: space-between; min-height: 86px; gap: 24px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; min-width: 220px; text-decoration: none; }
 .brand img { width: 66px; height: 66px; object-fit: contain; }
@@ -477,6 +477,7 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 }
 
 @media (max-width: 760px) {
+  html { scroll-padding-top: 72px; }
   .utility-bar { display: none; }
   .site-header__inner { min-height: 72px; }
   .brand { min-width: 0; }

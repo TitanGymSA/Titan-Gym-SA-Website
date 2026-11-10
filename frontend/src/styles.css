@@ -26,7 +26,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { min-width: 320px; scroll-padding-top: 86px; }
+html { min-width: 320px; scroll-padding-top: 122px; }
 body { margin: 0; background: var(--color-paper); color: var(--color-ink); overflow-wrap: anywhere; }
 button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -47,6 +47,7 @@ address { font-style: normal; }
 :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 4px; }
 .home-hero :focus-visible, .page-hero :focus-visible, .section--dark :focus-visible, .section--quote :focus-visible, .callout :focus-visible, .site-footer :focus-visible, .site-header :focus-visible, .utility-bar :focus-visible { outline-color: var(--color-accent); }
 
+.site-header-shell { position: sticky; top: 0; z-index: 100; }
 .utility-bar { background: var(--color-dark); color: var(--color-on-dark); font-size: .73rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .utility-bar__inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 36px; }
 .utility-bar a { text-decoration: none; }
@@ -62,7 +63,7 @@ address { font-style: normal; }
 .email-address__text { min-width: 0; overflow-wrap: anywhere; }
 .email-address svg { flex: none; }
 .button-link .phone-number, .contact-methods .phone-number { color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; }
-.site-header { position: sticky; top: 0; z-index: 100; background: var(--color-dark); color: var(--color-on-dark); border-bottom: 1px solid var(--color-dark-border); }
+.site-header { position: relative; background: var(--color-dark); color: var(--color-on-dark); border-bottom: 1px solid var(--color-dark-border); }
 .site-header__inner { display: flex; align-items: center; justify-content: space-between; min-height: 86px; gap: 24px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; min-width: 220px; text-decoration: none; }
 .brand img { width: 66px; height: 66px; object-fit: contain; }
@@ -477,8 +478,11 @@ html:has(.gallery-viewer[open]) { overflow: hidden; }
 }
 
 @media (max-width: 760px) {
-  html { scroll-padding-top: 72px; }
-  .utility-bar { display: none; }
+  html { scroll-padding-top: 128px; }
+  .utility-bar { font-size: .6rem; letter-spacing: .055em; }
+  .utility-bar__inner { min-height: 0; flex-wrap: wrap; gap: 4px 12px; padding-block: 7px; }
+  .utility-bar__inner > span { flex: 1 1 190px; min-width: 0; }
+  .utility-bar__inner > a { flex: 0 0 auto; margin-left: auto; }
   .site-header__inner { min-height: 72px; }
   .brand { min-width: 0; }
   .brand img { width: 54px; height: 54px; }

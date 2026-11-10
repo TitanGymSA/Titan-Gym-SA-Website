@@ -36,45 +36,47 @@ export function Header({ pathname }: { pathname: string }) {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <div className="utility-bar">
-        <div className="container utility-bar__inner">
-          <span>Family owned. Alamo Ranch, San Antonio.</span>
-          <a href={site.phoneHref}><PhoneNumber label="Call" /></a>
+      <div className="site-header-shell">
+        <div className="utility-bar">
+          <div className="container utility-bar__inner">
+            <span>Family-owned gym. Alamo Ranch, San Antonio.</span>
+            <a href={site.phoneHref}><PhoneNumber label="Call" /></a>
+          </div>
         </div>
+        <header className="site-header">
+          <div className="container site-header__inner">
+            <a className="brand brand--header" href="./index.html" aria-label="Titan Gym home">
+              <ResponsiveImage src="./images/Logo_Dark_V2_w_Text.png" alt="" sizes="(max-width: 760px) 71px, 86px" preferredWidth={192} />
+            </a>
+
+            <nav className={`site-nav ${menuOpen ? "site-nav--open" : ""}`} id="primary-navigation" aria-label="Main navigation">
+              {navigation.map((item) => {
+                const href = item.href.startsWith("/#")
+                  ? (pathname === "/" ? item.href.slice(1) : `./index.html${item.href.slice(1)}`)
+                  : (item.href === "/" ? "./index.html" : `.${item.href}.html`);
+                return (
+                  <a key={item.href} href={href} aria-current={pathname === item.href ? "page" : undefined} onClick={() => setMenuOpen(false)}>
+                    {item.label}
+                  </a>
+                );
+              })}
+              <a className="site-nav__mobile-cta" href={signupHref} onClick={() => setMenuOpen(false)}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
+            </nav>
+
+            <a className="site-header__cta" href={signupHref}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
+            <button
+              className="menu-toggle"
+              type="button"
+              aria-controls="primary-navigation"
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
+        </header>
       </div>
-      <header className="site-header">
-        <div className="container site-header__inner">
-          <a className="brand brand--header" href="./index.html" aria-label="Titan Gym home">
-            <ResponsiveImage src="./images/Logo_Dark_V2_w_Text.png" alt="" sizes="(max-width: 760px) 71px, 86px" preferredWidth={192} />
-          </a>
-
-          <nav className={`site-nav ${menuOpen ? "site-nav--open" : ""}`} id="primary-navigation" aria-label="Main navigation">
-            {navigation.map((item) => {
-              const href = item.href.startsWith("/#")
-                ? (pathname === "/" ? item.href.slice(1) : `./index.html${item.href.slice(1)}`)
-                : (item.href === "/" ? "./index.html" : `.${item.href}.html`);
-              return (
-                <a key={item.href} href={href} aria-current={pathname === item.href ? "page" : undefined} onClick={() => setMenuOpen(false)}>
-                  {item.label}
-                </a>
-              );
-            })}
-            <a className="site-nav__mobile-cta" href={signupHref} onClick={() => setMenuOpen(false)}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
-          </nav>
-
-          <a className="site-header__cta" href={signupHref}>{signupLabel} <ArrowIcon direction={signupDirection} /></a>
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-controls="primary-navigation"
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span /><span /><span />
-          </button>
-        </div>
-      </header>
     </>
   );
 }

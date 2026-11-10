@@ -76,13 +76,13 @@ Use a compact inset arrangement with all words horizontal. Small “Make” sits
 
 The selected supporting copy is:
 
-> Find your rhythm with a family-owned gym in Alamo Ranch.
+> Find your rhythm with a family-owned gym in Alamo Ranch
 
 Keep the main headline unchanged. The supporting line emphasizes rhythm, family ownership, and location.
 
 ## Homepage introduction replacement
 
-The highlights strip beneath the hero is a continuous scrolling carousel: Family owned, Open gym, Personal training, Alamo Ranch, TX, and All fitness levels. “Open gym” and “Personal training” replace the combined “Open gym & coaching” label. Scroll automatically without controls, hover pause, or other carousel interactions. Show a static wrapping list for reduced-motion preferences. Hide repeated visual items from screen readers.
+The highlights strip beneath the hero is a continuous scrolling carousel: Family owned, Open gym, Personal training, Alamo Ranch, TX, Nutrition Coaching, and All fitness levels. “Open gym” and “Personal training” replace the combined “Open gym & coaching” label. Scroll automatically without controls, hover pause, or other carousel interactions. Show a static wrapping list for reduced-motion preferences. Hide repeated visual items from screen readers.
 
 The “Alamo Ranch · San Antonio” label above the hero headline has been removed. Keep the small green “Welcome to Titan Gym” label above the white introduction section's heading: “Family owned” followed by “In Alamo Ranch” on a new line. Its smaller supporting line is “A family tradition of health & wellness”, using lead-paragraph typography with a lighter font weight of 400 rather than the display heading font. The previous introductory copy and link have been removed.
 
